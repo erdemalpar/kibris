@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Veri yüklerken nelere dikkat edilmelidir?",
+        "content": "Öncelikle parseller katmanı yüklenmelidir."
+    },
+    {
+        "title": "Hangi modüllerden hangi veriler yüklenmelidir?",
+        "content": "Kadastral veriler Veri>Veri Yükleme, Değerlendirme verileri ise Değerlendirme menüsü altından yüklenmelidir."
+    },
+    {
+        "title": "Değerlendirme menüsünde veri girişinde dikkat edilmesi gerekenler nelerdir?",
+        "content": "Referans Id (.gml dosyasında name alanı) benzersiz bir değer olup her alan için farklı olmalıdır. Aksi halde .gml dosyası sistem tarafından kabul edilmeyecektir."
+    },
+    {
+        "title": "Değerlendirme menüsünde silme işlemi nasıl yapılır?",
+        "content": "Her kullanıcı sadece kendi yüklediği verileri silebilir."
+    }
+]

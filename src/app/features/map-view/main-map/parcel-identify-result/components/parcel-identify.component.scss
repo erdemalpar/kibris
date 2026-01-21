@@ -1,0 +1,349 @@
+
+:host ::ng-deep .p-dialog {
+    border-radius: 12px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Ortak header ayarları */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    padding: 0.4rem 0.8rem;
+    min-height: 2rem;
+    background-color: #3c4962; /* header arka plan */
+    color: #f8fafc; /* başlık yazısı */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Header ikon boyutları */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1rem;
+    color: #f8fafc;
+}
+
+/* SADECE minimize/restore için (X hariç) */
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-icon:not(.close-btn):hover {
+    background-color: #00aaff !important; /* açık mavi hover */
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-icon.close-btn:hover {
+    background-color: #ff4d4d !important; /* kırmızı hover */
+}
+
+/* Minimize ikonları beyaz */
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-minus,
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-clone {
+    color: #ffffff;
+}
+
+
+.fullscreen-dialog {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+}
+/*
+.card {
+    max-width: 600px;
+    margin: 8px auto;
+    padding: 8px 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60,80,120,0.10);
+    min-height: 40vh;
+}
+*/
+/*
+:host ::ng-deep .p-dialog .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}*/
+
+/*
+.card {
+    max-width: 600px;
+    margin: 8px auto;
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60, 80, 120, 0.10);
+    min-height: 39vh; /* vh yerine otomatik auto
+}
+.card-fullscreen {
+    width: 95%;
+    max-width: 95%;
+    height: 95%;
+    margin: 16px auto;
+    padding: 10px;
+}*/
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    overflow: hidden; /* taşmaları keser ve yuvarlatmayı net gösterir */
+}
+
+/* Container yan yana dizilim */
+.card-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    align-items: stretch; /* yükseklikleri hizala */
+    //  min-height: 50vh; /* 💡 normal modda kartların daha yüksek görünmesi için */
+    //height: auto; /* içerik kadar yükseklik */
+    height: 100%;
+    max-height: calc(100vh - 60px); /* header farkını düş */
+}
+
+/* Sol kart (%25) */
+.card-left {
+    flex: 1 1 25%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 8px;
+    font-size: 0.85rem; /* genel font boyutu */
+    line-height: 1.4;
+    color: #1e293b;
+}
+
+.card-left h6 {
+    font-size: 0.9rem; /* başlık biraz daha büyük */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #0f172a;
+}
+
+/* Sağ kart (%75) *//*
+.card-right {
+    flex: 3 1 75%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 8px;
+}*/
+
+/* Fullscreen olduğunda daha geniş yapı */
+.dialog-fullscreen .card-container {
+    height: calc(100% - 2rem);
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* büyük ekranlarda daha az */
+@media (min-width: 1200px) {
+    .card-container {
+        min-height: auto;
+    }
+}
+
+@media (min-width: 1600px) {
+    .card-container {
+        min-height: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-right-container {
+        min-height: 47vh;
+    }
+}
+
+@media (min-width: 1400px) {
+    .card-right-container {
+        min-height: 41vh;
+    }
+}
+.layer-toggle {
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+    user-select: none;
+    color: #14181f;
+}
+
+.layer-toggle .pi {
+    font-size: 0.75rem; /* 🔹 İkon yazı boyutuyla hizalı */
+    line-height: 1;
+}
+
+.layer-list {
+    list-style: none;
+    padding-left: 1rem;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #14181f;
+
+    li {
+        display: block; /* alt node’lar alt alta */
+        cursor: pointer;
+        padding: 0.25rem 0;
+        /* ikon ve yazıyı hizala */
+        .li-content {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 1.2rem; /* indent */
+            margin: 0.2rem 0;
+            display: block; /* alt node’lar alt alta */
+        }
+    }
+
+    .pi {
+        font-size: 0.7rem; /* küçük ikon */
+    }
+}
+
+.layer-list li.active > .li-content,
+.layer-list li > .li-content.active {
+    background-color: #697da2;
+    border-radius: 2px;
+    color: white; /* opsiyonel */
+    display: inline-flex; /* sadece içerik genişliğini kapsar */
+    padding: 2px 6px; /* yazıya göre biraz boşluk */
+}
+
+
+
+.card-right-container {
+    flex: 3 1 75%;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Eski card-right alanı kadar */
+    gap: 0; /* Alt alta bitişik */
+    //height:100%;
+   // min-height:47vh;
+}
+
+/* Ortak card stili */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 0; /* Bitişik olabilmesi için */
+}
+
+/* Üst card: sadece butonlar */
+.card-buttons {
+    display: flex;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0; /* Alt card ile birleşmesi için */
+    justify-content: flex-start;
+    padding: 5px 10px; /* Çok küçük padding */
+    gap: 1px; /* Label arası boşluk */
+    height: 36px; /* üst card sabit */
+}
+
+/* Label stili */
+.card-buttons span {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #f5f5f5; /* Sade, açık ton */
+    transition: background-color 0.2s;
+}
+
+.card-buttons span.active {
+    background-color: #697da2;
+    color: white;
+}
+
+/* Alt card: içerik */
+.card-content {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; /* Üst card ile birleşmesi için */
+    padding: 10px;
+    //flex: 1; /* kalan tüm yüksekliği doldur */
+   // overflow: auto; /* içerik taşarsa scroll */
+    flex: 1 1 auto;
+    overflow-y: auto; /* içerik taşarsa sadece card-content içinde scroll */
+    max-height: calc(100vh - 100px); /* header + üst card yükseklik farkı */
+}
+
+
+.accordion-section {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #0f172a;
+    padding: 2px 0;
+    font-size:0.9rem
+}
+
+.accordion-body {
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    color: #334155;
+}
+
+.accordion-header .pi {
+    font-size: 0.7rem; /* veya 12px gibi bir değer */
+    line-height: 1;
+}
+
+.accordion-body .field {
+    display: grid;
+    grid-template-columns: 200px 10px auto; /* 1. kolon: etiket, 2. kolon: ":", 3. kolon: değer */
+    margin-bottom: 5px;
+}
+
+.accordion-body .label {
+    text-align: left;
+}
+
+.accordion-body .separator {
+    text-align: center;
+}
+
+.accordion-body .value {
+    text-align: left;
+}
+
+:host ::ng-deep .cephe-table {
+    width: 100% !important;
+    font-size: 0.75rem !important;
+    border-collapse: collapse !important;
+
+    th, td {
+        padding: 4px 8px !important;
+        border-bottom: 1px solid #e5e7eb !important;
+    }
+    /* Başlıklar ortalı */
+    th {
+        background-color: #f9fafb !important;
+        font-weight: 800 !important;
+        text-align: center !important;
+    }
+    /* TÜM hücreler sağa yaslanacak */
+    td {
+        text-align: right !important;
+    }
+}

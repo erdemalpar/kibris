@@ -1,0 +1,20 @@
+
+<ul class="surface-card p-0 m-0 list-none flex-tab-end overflow-x-auto select-none" >
+    <li >
+        <a pRipple class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150"
+            [ngClass]="{'border-blue-500 text-blue-500 hover:border-blue-500': active1 === 0, 'text-700 border-transparent': active1 !== 0}" (click)="active1 = 0" >
+            <i class="pi pi-ellipsis-h mr-2"></i>
+            <span class="font-medium" >Detay 1</span>
+        </a>
+    </li>
+    <li>
+        <a pRipple class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150"
+        [ngClass]="{'border-blue-500 text-blue-500 hover:border-blue-500': active1 === 1, 'text-700 border-transparent': active1 !== 1}" (click)="active1 = 1">
+            <i class="pi pi-history mr-2"></i>
+            <span class="font-medium">Detay 2</span>
+        </a>
+    </li>
+</ul>
+
+<app-crud-detail-one *ngIf="active1 === 0" [crudDto]="crudDto" ></app-crud-detail-one>
+<app-crud-detail-two *ngIf="active1 === 1" [crudDto]="crudDto" ></app-crud-detail-two>

@@ -1,0 +1,71 @@
+<p-dialog [(visible)]="displayDialog"
+          [modal]="false"
+          [style]="{width: minimized ? '300px' : '90%', maxWidth: '400px', height: minimized ? '50px' : 'auto'}"
+          [ngClass]="{'minimized': minimized, 'Coordinate-dialog': true}"
+          (onHide)="closeDialog()">
+
+    <!-- Özel Header -->
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>Koordinata Git</span>
+            <div style="display: flex; gap: 0.3rem;">
+                <!-- Minimize / Restore Butonu -->
+                <button type="button"
+                        class="p-dialog-header-icon p-link minimize-btn"
+                        (click)="toggleMinimize()"
+                        pTooltip="{{ minimized ? 'Önceki Ekrana Dön' : 'Küçült' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Body -->
+    <div *ngIf="!minimized" class="p-fluid">
+        <!-- Koordinat Tipi Dropdown -->
+      <!--  <div class="card p-3"> -->
+            <div class="p-field">
+                <label for="coordinateType">Koordinat Tipi:</label>
+                <p-dropdown [options]="coordinateTypes"
+                            [(ngModel)]="selectedCoordinateType">
+                </p-dropdown>
+            </div>
+            <!-- Geo -->
+            <ng-container *ngIf="selectedCoordinateType === 'geo'">
+                <div class="p-field">
+                    <label for="latitude">Enlem:</label>
+                    <input id="latitude" type="text" pInputText [(ngModel)]="latitude">
+                </div>
+                <div class="p-field">
+                    <label for="longitude">Boylam:</label>
+                    <input id="longitude" type="text" pInputText [(ngModel)]="longitude">
+                </div>
+            </ng-container>
+
+            <!-- Kartezyen -->
+            <ng-container *ngIf="selectedCoordinateType === 'cartesian'">
+                <div class="p-field">
+                    <label for="dom">D.O.M.:</label>
+                    <p-dropdown [options]="domTypes"
+                                [(ngModel)]="selectedDomType"
+                                placeholder="Seçiniz">
+                    </p-dropdown>
+                </div>
+                <div class="p-field">
+                    <label for="x">Y:</label>
+                    <input id="x" type="text" pInputText [(ngModel)]="x">
+                </div>
+                <div class="p-field">
+                    <label for="y">X:</label>
+                    <input id="y" type="text" pInputText [(ngModel)]="y">
+                </div>
+            </ng-container>
+
+            <!-- Button -->
+            <div style="margin-top: 15px; text-align: right;">
+                <p-button label="Koordinata Git" (click)="goToCoordinates()" styleClass="custom-download-btn"></p-button>
+            </div>
+       <!-- </div> -->
+    </div>
+</p-dialog>

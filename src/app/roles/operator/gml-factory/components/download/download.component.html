@@ -1,0 +1,114 @@
+<p-dialog [(visible)]="displayDialog"
+          [draggable]="true"
+          [modal]="false"
+          [style]="{width: minimized ? '300px' : '90%', maxWidth: '400px', height: minimized ? '50px' : 'auto'}"
+          [ngClass]="{'minimized': minimized, 'Download-dialog': true}"
+          (onHide)="closeDialog()">
+
+    <!-- Özel Header -->
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>Onaylı Veri İndir</span>
+            <div style="display: flex; gap: 0.3rem;">
+                <button type="button"
+                        class="p-dialog-header-icon p-link minimize-btn"
+                        (click)="toggleMinimize()"
+                        pTooltip="{{ minimized ? 'Önceki Ekrana Dön' : 'Küçült' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <!-- Body – Card Görünümü -->
+    <div *ngIf="!minimized" class="p-fluid">
+        <!-- <div class="card p-3"> -->
+        <!-- İlçe -->
+        <div class="field mb-3">
+            <label class="block font-semibold mb-1">İlçe Seçiniz</label>
+            <p-dropdown [options]="ilceList"
+                        [(ngModel)]="selectedIlce"
+                        optionLabel="name"
+                        placeholder="Seçiniz"
+                        styleClass="w-full"
+                        (onChange)="ilceChanged($event)"
+                        [showClear]="true"></p-dropdown>
+        </div>
+        <!-- Mahalle -->
+        <div class="field mb-3 mt-3">
+            <label class="block font-semibold mb-1">Mahalle Seçiniz</label>
+            <p-dropdown [options]="mahalleList"
+                        [(ngModel)]="selectedMahalle"
+                        optionLabel="name"
+                        placeholder="Seçiniz"
+                        styleClass="w-full"
+                        [disabled]="!selectedIlce"
+                        (onChange)="mahalleChanged($event)"
+                        [showClear]="true"></p-dropdown>
+        </div>
+
+        <!-- Ada -->
+        <div class="field mb-3 mt-3">
+            <div class="flex items-end gap-2 mb-1">
+                <label class="block font-semibold">Ada:</label>
+                <i class="pi pi-info-circle text-blue-500 cursor-pointer mt-1"
+                   pTooltip="Ada seçilmesi halinde parsel seçimi zorunludur."
+                   tooltipPosition="right">
+                </i>
+            </div>
+
+            <p-dropdown [options]="adaList"
+                        [(ngModel)]="selectedAda"
+                        optionLabel="name"
+                        placeholder="Seçiniz"
+                        styleClass="w-full"
+                        [disabled]="!selectedMahalle"
+                        (onChange)="adaChanged($event)"
+                        [showClear]="true"
+                        [appendTo]="'body'">
+            </p-dropdown>
+        </div>
+
+
+
+        <!-- Parsel -->
+        <div class="field mb-3 mt-3">
+            <label class="block font-semibold mb-1">Parsel:</label>
+            <p-dropdown [options]="parselList"
+                        [(ngModel)]="selectedParsel"
+                        optionLabel="name"
+                        placeholder="Seçiniz"
+                        styleClass="w-full"
+                        [disabled]="!selectedMahalle"
+                        [showClear]="true"
+                        [appendTo]="'body'"></p-dropdown>
+        </div>
+
+        <!-- Katman -->
+        <div class="field mb-3 mt-3">
+            <label class="block font-semibold mb-1">Katman:</label>
+            <p-multiSelect [options]="katmanList"
+                           [(ngModel)]="selectedKatmanList"
+                           optionLabel="name"
+                           defaultLabel="Seçiniz"
+                           [display]="'chip'"
+                           styleClass="w-full"
+                           [disabled]="!selectedMahalle"
+                           [panelStyle]="{ 'max-height': '250px', 'overflow-y': 'auto' }"
+                           [showClear]="true"
+                           [appendTo]="'body'">
+            </p-multiSelect>
+        </div>
+
+        <!-- İndir Butonu -->
+        <div class="mt-3 text-right">
+            <p-button label="İndir"
+                      type="button"
+                      class="p-button-primary"
+                      [disabled]="this.app.isLoading || !selectedKatmanList?.length || (selectedAda && !selectedParsel)"
+                      (click)="download()"
+                      styleClass="custom-download-btn"></p-button>
+        </div>
+    </div>
+    <!--</div>-->
+</p-dialog>

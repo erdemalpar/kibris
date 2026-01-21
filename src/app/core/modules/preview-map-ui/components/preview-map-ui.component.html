@@ -1,0 +1,14 @@
+<div class="preview-wrapper" style="height:100%; width:100%; position: relative;">
+
+  <!-- Bilgi Paneli -->
+    <div class="map-info p-2 bg-white shadow-md rounded absolute top-2 left-2 z-50">
+        <div><strong>İlçe:</strong> {{ featureCollection?.ilceName }}</div>
+        <div><strong>Mahalle:</strong> {{ featureCollection?.mahalleName }}</div>
+        <div><strong>DOM:</strong> {{ featureCollection?.dom }}</div>
+        <div><strong>Yüklenen obje sayısı:</strong> {{ featureCollection?.featureCount }}</div>
+    </div>
+
+  <!-- Map Container -->
+  <div id="previewMap" style="height:100%; width:100%;"></div>
+
+</div>

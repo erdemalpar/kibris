@@ -1,0 +1,160 @@
+.card {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 32px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60,80,120,0.10);
+    background: #f9fafb; // açık arka plan
+    height: auto; /* kart yüksekliği içeriğe göre ayarlanır */
+    overflow: visible; /* içeriği kesme */
+}
+
+h2 {
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-align: center;
+  color: #3b4a6b;
+}
+
+input[type="file"] {
+  margin-bottom: 12px;
+}
+
+p {
+  color: #2e3a59;
+  font-size: 15px;
+}
+
+.upload-label {
+  display: block;
+  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+.select-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 0;
+  border-radius: 10px;
+  font-weight: 500;
+  border: 2px dashed #bfc8e6; // açık gri
+  background: #f4f6fa; // açık arka plan
+  color: #3b4a6b;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.select-btn i {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+.select-btn:hover {
+  background: #e3e8f0;
+  border-color: #6366f1;
+  color: #2e3a59;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: #6366f1;
+  font-size: 15px;
+  border: 1px solid #bfc8e6;
+  background: #f4f6fa;
+}
+
+.file-info i {
+  font-size: 1.2rem;
+}
+
+.p-button-success {
+  width: 100%;
+  font-size: 1rem;
+  padding: 12px 0;
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.p-button-success:disabled {
+  color: #888;
+  background: #e3e8f0;
+}
+
+.upload-progress {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  margin: 10px 0;
+  overflow: hidden;
+  position: relative;
+  background: #e3e8f0;
+}
+.upload-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.upload-error {
+  color: #f87171;
+  background: #f4f6fa;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #f87171;
+}
+
+.upload-success {
+  color: #34d399;
+  background: #f4f6fa;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #34d399;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 0 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.icon-btn i {
+  font-size: 1.3rem;
+  color: #6366f1;
+}
+
+.icon-btn:hover i {
+  color: #f87171;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  justify-content: center !important; /* ortalama */
+}
+
+::ng-deep .p-dialog .p-dialog-title {
+  font-weight: bold !important;
+  font-size: 1.2rem;
+  text-align: center;
+  flex: 1; /* tam genişlik kaplasın */
+}

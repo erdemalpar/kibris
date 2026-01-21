@@ -1,0 +1,395 @@
+<div class="card p-2 page-container">
+    <div class="header-title">
+        Değerlendirme
+    </div>
+    <div class="flex flex-column content-area">
+        <!-- FİLTRE ALANI -->
+        <div class="col-12 flex align-items-end gap-2 flex-wrap filter-area">
+            <!-- İlçe -->
+            <div class="filter-item">
+                <label>İlçe:</label>
+                <p-dropdown [options]="ilceList"
+                            [(ngModel)]="selectedIlce"
+                            optionLabel="name"
+                            placeholder="İlçe seçiniz"
+                            (onChange)="onIlceChange($event)"></p-dropdown>
+            </div>
+
+            <!-- Mahalle -->
+            <div class="filter-item">
+                <label>Mahalle:</label>
+                <p-dropdown [options]="mahalleList"
+                            [(ngModel)]="selectedMahalle"
+                            optionLabel="name"
+                            placeholder="Mahalle seçiniz"></p-dropdown>
+            </div>
+
+            <!-- Ara Butonu -->
+            <div class="filter-item">
+                <button pButton
+                        type="button"
+                        label="Ara"
+                        icon="pi pi-search"
+                        class="w-auto"
+                        (click)="onFiltrele()"></button>
+            </div>
+
+            <!-- Ekle Butonu Sağda -->
+            <div class="ml-auto flex gap-2">
+                <button pButton
+                        type="button"
+                        label="Ekle"
+                        icon="pi pi-plus"
+                        class="w-auto p-button-success"
+                        (click)="onGeometriEkle()"
+                         [disabled]="!selectedMahalle"></button>
+
+                <!-- Seçili Kayıtları Sil -->
+                <button pButton
+                        type="button"
+                        label="Sil"
+                        icon="pi pi-trash"
+                        class="p-button-danger w-auto"
+                        [disabled]="!selectedRecords?.length"
+                        pTooltip="Silme işlemi sadece veriyi oluşturan kişi tarafından yapılmaktadır."
+                        tooltipPosition="top"
+                        (click)="onDeleteSelected()"></button>
+            </div>
+        </div>
+        <!-- TABLO -->
+        <div class="col-12 mt-3 table-wrapper">
+            <!-- Mahalle seçilmemişse placeholder göster -->
+            <div *ngIf="!filterApplied" class="flex flex-column items-center justify-content-center p-5 border-1 border-dashed border-gray-300 rounded-lg placeholder">
+                <!-- <i class="pi pi-map text-6xl text-gray-400 mb-3"></i>
+                <h3 class="text-gray-600 mb-1">Sorgulama için kriterleir giriniz.</h3>-->
+                <img src="assets/layout/images/search_2.png" alt="Placeholder" class="mb-3 w-2 h-2 object-contain" />
+                <p class="text-gray-500 text-center">Lütfen gerekli alanları seçip "Ara" butonuna basınız.</p>
+            </div>
+            <p-table *ngIf="filterApplied" class="p-datatable-sm p-datatable-striped responsive-table"
+                     stripedRows
+                     [value]="listDto"
+                     [(selection)]="selectedRecords"
+                     dataKey="name"
+                     selectionMode="multiple"
+                      [paginator]="true"
+         [rows]="pageSize"
+         [totalRecords]="totalRecords"
+         [lazy]="true"
+         (onLazyLoad)="onPageChange($event)"
+         [rowsPerPageOptions]="[20, 50, 100]"
+         [scrollable]="true"
+         scrollHeight="flex">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Referans Id</th>
+                        <th>Tür</th>
+                        <th>Tip</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th>Değer (m² Birim Fiyatı)</th>
+                        <th>Para Birimi</th>
+                        <th>Açıklama</th>
+                        <th class="action-col text-center"> </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <!-- AD -->
+                        <td>{{ item.name }}</td>
+                        <td>{{item.featureType}}</td>
+                        <!-- TIP -->
+                        <td>{{ item.tip?.label || item.tip?.name || item.tip }}</td>
+                        <td>{{ item.degerBaslangicTarihi | date:'dd.MM.yyyy' }}</td>
+                        <td>{{ item.degerBitisTarihi | date:'dd.MM.yyyy' }}</td>
+                        <td>{{ item.deger }}</td>
+                        <td>{{ item.paraBirimi?.label || item.paraBirimi }}</td>
+                        <td>{{ item.aciklama }}</td>
+
+                        <!-- Geometriye git -->
+                        <td class="text-center">
+                            <button pButton type="button"
+                                    icon="pi pi-search-plus"
+                                    class="p-button-text p-button-rounded p-button-sm text-indigo-500"
+                                    pTooltip="Geometriye git"
+                                    tooltipPosition="top"
+                                    (click)="goToGeometry(item)">
+                            </button>
+                        </td>
+
+                        <!-- Sil -->
+                        <!--  <td class="text-center">
+          <button pButton type="button"
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-rounded p-button-sm text-red-500"
+                  pTooltip="Kaydı Sil"
+                  tooltipPosition="top"
+                  (click)="onDelete(item)">
+          </button>
+      </td>-->
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+        <p-dialog header="Harita" [(visible)]="showMap"
+                  [modal]="true" [closable]="true" [style]="{ width: '50vw', height: '40vh' }"
+                  [contentStyle]="{ padding: '0', height: '100%' }"
+                  (onShow)="initMap()"
+                  (onHide)="resetMap()"
+                  [baseZIndex]="10000">
+
+            <!-- Doğrudan div ile harita container -->
+            <div id="popupMap" style="width:100%; height:100%;"></div>
+
+        </p-dialog>
+
+
+    </div>
+</div>
+
+<!-- 🔹 EKLE DİYALOĞU -->
+<p-dialog header="Değerlendirme Alan Yükle"
+          [(visible)]="displayEkleDialog"
+          (onHide)="onEkleDialogHide()"
+          [modal]="true"
+          [closable]="true"
+          [style]="{ width: '20vw' }">
+    <div class="col-12">
+        <div class="card p-3">
+            <!-- DOM Seçimi -->
+            <div class="field mb-3 flex align-items-center mt-3">
+                <label for="dom" class="block font-semibold mb-1 mr-2">Dilim Orta Meridyeni Seçiniz</label>
+            </div>
+            <p-dropdown [options]="domOptions"
+                        [(ngModel)]="domValue"
+                        placeholder="DOM seçiniz"
+                        [showClear]="false"
+                        styleClass="w-full"></p-dropdown>
+
+            <!-- GML Yükleme -->
+            <div class="field mb-3 flex align-items-center mt-3">
+                <label class="block font-semibold mb-1 mr-2">Dosya Seçiniz</label>
+                <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                   pTooltip="Sadece .gml uzantılı olarak üretilmiş dosyaları yükleyebilirsiniz."
+                   tooltipPosition="right"></i>
+            </div>
+            <label class="upload-label block mb-3">
+                <input #fileInput type="file" accept=".gml" (change)="onFileSelected($event)" hidden />
+                <span class="select-btn">
+                    <i class="pi pi-upload"></i> Dosya Seçiniz
+                </span>
+            </label>
+            <div *ngIf="fileName"
+                 class="file-info mb-3 flex align-items-center justify-content-between">
+                <span pTooltip="{{ fileName }}" tooltipPosition="top"> <i class="pi pi-file mr-2"></i> {{ fileName }} </span>
+                <button type="button" class="icon-btn" (click)="onRemoveFile()">
+                    <i class="pi pi-times-circle"></i>
+                </button>
+            </div>
+
+            <div class="flex justify-content-end gap-2 mt-3">
+                <button pButton
+                        label="Yükle"
+                        icon="pi pi-check"
+                        class="p-button-success"
+                        (click)="onUpload()"></button>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- 🔹 YENİ GML VERİ GİRİŞ DİYALOĞU -->
+<p-dialog header="Yeni Değerlendirme Verileri"
+          [(visible)]="displayUploadResultDialog"
+          [modal]="true"
+          [closable]="true"
+          [style]="{ width: '85%' }"
+         (onHide)="onCancel()">
+
+    <div class="p-fluid">
+        <p-table class="p-datatable-sm p-datatable-striped responsive-table"
+                 [value]="dataList"
+                 [(selection)]="selectedUploadRecords"
+                 dataKey="name"
+                 selectionMode="multiple"
+                 [rows]="20"
+                 [paginator]="true"
+                 [rowsPerPageOptions]="[20, 50, 100]"
+                 [totalRecords]="dataList?.length"
+                 [scrollable]="true"
+                 [scrollHeight]="'500px'"
+                 appendTo="body"
+                 [lazy]="false">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>Referans Id</th>
+                    <th>Tür</th>
+                    <th>Tip</th>
+                    <th style="min-width:9rem">Başlangıç Tarihi</th>
+                    <th style="min-width:9rem">Bitiş Tarihi</th>
+                    <th style="min-width:9rem">Değer (m² Birim Fiyatı)</th>
+                    <th>Para Birimi</th>
+                    <th style="min-width:7rem">Açıklama</th>
+                    <th> </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.featureType }}</td>
+                    <!-- Tip -->
+                    <td [ngClass]="{'border border-red-400 rounded': item.validationErrors?.tip}">
+                        <p-dropdown [options]="item.tipOptions"
+                                    [(ngModel)]="item.tip"
+                                    optionLabel="label"
+                                    placeholder="Seçiniz"
+                                    appendTo="body">
+                        </p-dropdown>
+                    </td>
+                    <!-- Başlangıç Tarihi -->
+                    <td [ngClass]="{'border border-red-400 rounded': item.validationErrors?.valuationStartDate}">
+                        <p-calendar [(ngModel)]="item.valuationStartDate"
+                                    dateFormat="dd.mm.yy"
+                                    [showIcon]="true"
+                                    [touchUI]="false"
+                                    appendTo="body"
+                                    styleClass="w-24"
+                                    inputStyleClass="text-sm">
+                        </p-calendar>
+                    </td>
+
+                    <!-- Bitiş Tarihi -->
+                    <td [ngClass]="{'border border-red-400 rounded': item.validationErrors?.valuationEndDate}">
+                        <p-calendar [(ngModel)]="item.valuationEndDate"
+                                    dateFormat="dd.mm.yy"
+                                    [showIcon]="true"
+                                    [touchUI]="false"
+                                    appendTo="body"
+                                    styleClass="w-24"
+                                    inputStyleClass="text-sm">
+                        </p-calendar>
+                    </td>
+                    <!-- Değer -->
+                    <td [ngClass]="{'border border-red-400 rounded': item.validationErrors?.deger}">
+                        <input type="number" pInputText [(ngModel)]="item.deger" class="w-full" />
+                    </td>
+
+                    <!-- Para Birimi -->
+                    <td [ngClass]="{'border border-red-400 rounded': item.validationErrors?.paraBirimi}">
+                        <p-dropdown [options]="paraBirimleri"
+                                    [(ngModel)]="item.paraBirimi"
+                                    optionLabel="label"
+                                    placeholder="Seçiniz"
+                                    appendTo="body"></p-dropdown>
+                    </td>
+
+                    <!-- Açıklama -->
+                    <td>
+                        <input type="text" pInputText [(ngModel)]="item.aciklama" class="w-full" />
+                    </td>
+                    <td class="text-center">
+                        <button pButton type="button"
+                                icon="pi pi-search-plus"
+                                class="p-button-text p-button-rounded p-button-sm text-indigo-500"
+                                pTooltip="Geometriye git"
+                                tooltipPosition="top"
+                                (click)="goToGeometry(item)">
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <div class="flex justify-content-end gap-2 mt-4">
+            <button pButton
+                    label="Sil"
+                    icon="pi pi-trash"
+                    class="p-button-danger"
+                    [disabled]="!selectedUploadRecords?.length"
+                    (click)="onDeleteLocalUploadRecords()"></button>
+            <button pButton label="Vazgeç" class="p-button-secondary" (click)="onCancel()"></button>
+            <button pButton label="Kaydet" icon="pi pi-check" class="p-button-success" (click)="onSaveData()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+
+<!-- Mini Confirm Dialog -->
+<!--<p-dialog [(visible)]="confirmVisible"
+          [modal]="true"
+          [closable]="false"
+          [dismissableMask]="true"
+          [style]="{width: '350px', padding: '1rem'}"
+          [showHeader]="false">
+    <div class="flex flex-column gap-3 items-center  w-full">
+        <p>{{ confirmMessage }}</p>-->
+<!-- 🔹 Açıklama Alanı -->
+<!--<div class="w-full">
+            <label class="block font-semibold mb-1">Açıklama <span class="text-red-500">*</span></label>
+            <textarea pInputTextarea
+                      [(ngModel)]="deleteDescription"
+                      rows="3"
+                      placeholder="Silme nedeninizi giriniz..."
+                      class="w-full"></textarea>
+        </div>
+        <div class="flex gap-2 justify-content-center w-full">
+            <button pButton type="button" label="Evet" class="p-button-danger" (click)="onConfirmAccept()"></button>
+            <button pButton type="button" label="Hayır" class="p-button-secondary" (click)="onConfirmReject()"></button>
+        </div>
+    </div>
+</p-dialog>-->
+<!-- 🔸 Basit Onay Dialogu (açıklama yok) -->
+<!--<p-dialog [(visible)]="confirmVisibleLocal"
+          [modal]="true"
+          [closable]="false"
+          [style]="{ width: '25vw' }"
+          header="Onay">
+
+    <div class="flex flex-column gap-3 items-center text-center">
+        <p>{{ confirmMessageLocal }}</p>
+
+        <div class="flex gap-2 justify-content-center w-full">
+            <button pButton label="Evet" class="p-button-danger" (click)="onConfirmAcceptLocal()"></button>
+            <button pButton label="Hayır" class="p-button-secondary" (click)="onConfirmRejectLocal()"></button>
+        </div>
+    </div>
+</p-dialog>-->
+<!-- 🔸 Tek Onay Dialogu (isteğe göre açıklama alanı gösterilir) -->
+<p-dialog [(visible)]="confirmVisible"
+          [modal]="true"
+          [closable]="false"
+          [style]="{ width: '25vw' }"
+          header="Onay">
+
+    <div class="flex flex-column gap-3 items-center text-center">
+        <p>{{ confirmMessage }}</p>
+
+        <!-- 🔹 Açıklama alanı sadece gerekli olduğunda görünür -->
+        <div *ngIf="confirmRequireDescription" class="w-full">
+            <textarea pInputTextarea
+                      [(ngModel)]="deleteDescription"
+                      rows="3"
+                      placeholder="Lütfen açıklama giriniz..."
+                      class="w-full">
+      </textarea>
+        </div>
+
+        <div class="flex gap-2 justify-content-center w-full mt-3">
+            <button pButton label="Evet" class="p-button-danger" (click)="onConfirmAccept()"></button>
+            <button pButton label="Hayır" class="p-button-secondary" (click)="onConfirmReject()"></button>
+        </div>
+    </div>
+</p-dialog>

@@ -1,0 +1,22 @@
+.layout-content-wrapper {
+    padding-top: 4rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    .layout-content {
+        flex: 1 1 auto;
+        padding: 0; /* Harita için padding kaldırıldı */
+        height: auto; /* Otomatik yükseklik */
+       // overflow: visible; /* Scrollbar'ı engelleme kaldırıldı */
+       overflow: hidden;
+        min-height: calc(100vh - 4rem); /* Topbar yüksekliği çıkarıldı */
+    }
+}
+
+/* Harita sayfaları için özel düzenleme */
+.layout-content:has(#map) {
+    padding: 0;
+    height: calc(100vh - 4rem); /* Footer gizlendiği için tam yükseklik */
+    min-height: calc(100vh - 4rem);
+}

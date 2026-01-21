@@ -1,0 +1,35 @@
+<p-dialog [(visible)]="displayDialog"
+          [modal]="false"
+          [style]="{width: minimized ? '300px' : '90%', maxWidth: '400px', height: minimized ? '50px' : 'auto'}"
+          [ngClass]="{'minimized': minimized}"
+          (onHide)="closeDialog()">
+
+    <!-- Özel Header -->
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>WKT İşlemleri</span>
+            <div style="display: flex; gap: 0.5rem;">
+                <!-- Minimize / Restore Butonu -->
+                <button type="button"
+                        (click)="toggleMinimize()"
+                        pTooltip="{{ minimized ? 'Önceki Ekrana Dön' : 'Küçült' }}"
+                        tooltipPosition="top"
+                        class="p-dialog-header-icon p-link minimize-btn">
+                    <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Body -->
+    <div *ngIf="!minimized" class="p-fluid w-100">
+        <!--   <div class="card p-3"> -->
+                <div class="p-field">
+                    <label for="wktInput">WKT:</label>
+                    <textarea id="wktInput" rows="8" pInputTextarea [(ngModel)]="wktText" class="w-full"></textarea>
+                </div>
+
+                <p-button label="Göster" (click)="showWKTOnMap()" styleClass="custom-download-btn"></p-button>
+          <!--   </div> -->
+        </div>
+    </p-dialog>

@@ -1,0 +1,132 @@
+<p-dialog [(visible)]="crudFormDisplay"  [responsive]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '75vw'}"
+    [header]="selectedCrud ? 'Crud Düzenleme' : 'Yeni Crud Oluşturma'"
+    [modal]="true" class="p-fluid">
+    <app-crud-edit  [crudDto]="selectedCrud" (onSave)="onSave($event)" (onCancel)="onCancel()">
+    </app-crud-edit>
+</p-dialog>
+
+<p-table #dt1 [lazy]="true" (onLazyLoad)="loadLazy($event)" [value]="crudDtoList" dataKey="id"
+     [breakpoint]="'1200px'" [rows]="100"
+    [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-sm" [paginator]="true"
+    [totalRecords]="totalRecords" [showCurrentPageReport]="true" 
+    currentPageReportTemplate="{totalRecords} kayıttan {first} - {last} arası gösteriliyor"
+    [rowsPerPageOptions]="[10,50,100]">
+
+    <ng-template pTemplate="caption" let-columns>
+        <div class="flex justify-content-between flex-column sm:flex-row mb-2">
+            <div >
+                <button class="btn btn-default openBtn" type="button" icon="pi pi-plus" pButton label="Yeni Crud"
+                     (click)="createOrUpdateCrud()"></button>
+            </div>
+        </div>
+            <div class="p-fluid grid formgrid">
+                <div class="field col-2" >
+                    <input pInputText type="text" [(ngModel)]="query.description"
+                        placeholder="Aciklama" appendTo="body">
+                </div>
+                <div class="field col-2" >
+                    <p-dropdown #dd inputId="crudType" [options]="crudTypes" optionLabel="value" appendTo="body"
+                        optionValue="id" [showClear]="true" placeholder="Tip"
+                        [(ngModel)]="query.crudType">
+                        <ng-template let-crudType pTemplate="selectedItem">
+                            <span *ngIf="query && query.crudType!==null"
+                                [class]="'type-status status-' + query.crudType">{{crudType.value|crudTypesPipe}}</span>
+                        </ng-template>
+                        <ng-template let-crudType pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>
+                                    <span [class]="'type-status status-' + query.crudType">{{crudType.value|crudTypesPipe}}</span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="field col-2" styleClass="mb-1 col-12 md:col-12">
+                    <button type="button" icon="pi pi-search" pButton label="Ara" (click)="loadCrudList()"></button>
+                </div>
+
+            </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns="columns">
+        <tr>
+          <td></td>
+            <th style="min-width: 6rem;max-width: 6rem;" pSortableColumn="createTime" >Kayıt Tarih<p-sortIcon
+                    field="createTime"></p-sortIcon>
+            </th>
+            <th style="min-width: 7rem;max-width: 7rem;" pSortableColumn="crudType" >Tip<p-sortIcon
+                    field="crudType"></p-sortIcon>
+            </th>
+            <th style="min-width: 6rem;max-width: 6rem;" pSortableColumn="description" >Aciklama<p-sortIcon
+                    field="description"></p-sortIcon>
+            </th>
+            <th style="min-width: 3rem;max-width: 3rem;"></th>
+        </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-crudDto let-expanded="expanded" let-columns="columns">
+        <tr>
+            <td>
+                <div>
+                    <button type="button" pButton pRipple [pRowToggler]="crudDto"
+                        class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+
+                </div>
+            </td>
+            <td>{{ crudDto.createTime | date: 'dd/MM/yyyy H:mm'}}</td>
+            <td>{{ crudDto.crudType | crudTypesPipe }}</td>
+            <td>{{ crudDto.description }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" severity="success" styleClass="p-button-rounded" (click)="createOrUpdateCrud(crudDto)" pTooltip="Düzenle" tooltipPosition="left"></p-button>
+                <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger" (click)="confirmDelete(crudDto)" pTooltip="Sil" tooltipPosition="left"></p-button>
+
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">Kayıt Bulunamadı.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+        <tr>
+            <app-custom-spinner></app-custom-spinner>
+            <td colspan="5">Kayıtlar Yükleniyor Lütfen Bekleyiniz.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-crudDto>
+        <tr>
+            <td colspan="5">
+                <div class="p-3">
+                    <app-crud-detail [crudDto]="crudDto"></app-crud-detail>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<p-dialog [(visible)]="this.deleteConfirmationDiaglogShow" appendTo="body" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '40vw'}" *ngIf="selectedCrud != null">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <span class="flex align-items-center justify-content-center bg-cyan-100 text-cyan-800 mr-3 border-circle"
+                style="width:32px;height:32px">
+                <i class="pi pi-info text-lg"></i>
+            </span>
+            <span class="font-medium text-2xl text-900">Sipariş Silme Onayı</span>
+        </div>
+    </ng-template>
+    <p class="line-height-3 p-0 m-0">
+        {{selectedCrud.id}} numaralı siparişi silmek istediğinize emin misiniz?
+    </p>
+    <ng-template pTemplate="footer">
+        <div class=" border-top-1 surface-border pt-3">
+            <button pButton pRipple icon="pi pi-times" (click)="this.deleteConfirmationDiaglogShow = false"
+                label="İptal" class="p-button-text"></button>
+            <button pButton pRipple icon="pi pi-check" (click)="deleteCrud()" label="Sil"></button>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,20 @@
+.map-wrapper {
+    position: relative;
+    width: 98.5%;
+    max-width: 100%; /* Taşmayı engeller */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden; /* Fazlalık taşmaları gizler */
+    padding: 0.5rem;
+    box-sizing: border-box; /* padding dahil genişliği hesaba kat */
+    margin: 0 auto;
+}
+
+.map-container {
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-sizing: border-box;
+}

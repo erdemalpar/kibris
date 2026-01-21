@@ -1,0 +1,172 @@
+<!--<p-dialog #dialog
+          [visible]="visible"
+          [modal]="false"
+          [closable]="false"
+          [style]="dialogStyle"
+          [styleClass]="fullscreen ? 'dialog-fullscreen' : ''"
+          [ngClass]="dialogClass"
+          (onHide)="closeDialog()"
+          [draggable]="true">-->
+
+    <!-- Özel Header -->
+    <!--<ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>Başvuru İşlemleri</span>
+            <div style="display: flex; gap: 0rem;">-->
+                <!-- Minimize Butonu -->
+                <!--<button type="button"
+                        class="p-dialog-header-icon p-link minimize-btn"
+                        (click)="toggleMinimize()"
+                        pTooltip="{{ minimized ? 'Genişlet' : 'Küçült' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
+                </button>-->
+                <!-- Fullscreen -->
+                <!--<button type="button"
+                        class="p-dialog-header-icon p-link fullscreen-btn"
+                        (click)="toggleFullscreen()"
+                        pTooltip="{{ fullscreen ? 'Önceki Ekrana Dön' : 'Tam Ekran' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (fullscreen ? 'pi-clone' : 'pi-external-link')"></span>
+                </button>
+
+                <button type="button"
+                        class="p-dialog-header-icon p-link close-btn"
+                        (click)="closeDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>-->
+
+    <!-- Header altındaki filtre alanı -->
+    <!--<div *ngIf="!minimized"
+         class="filter-bar">-->
+        <!-- üst-alt boşluk -->
+        <!-- İlçe -->
+        <!--<div class="filter-item">
+            <label>İlçe:</label>
+            <p-dropdown [options]="ilceList" [(ngModel)]="selectedIlce" optionLabel="name"
+                        placeholder="Seçiniz" class="small-dropdown" (onChange)="ilceChanged($event)"
+                        [style]="{'margin': '0', 'height': '24px'}"></p-dropdown>
+        </div>-->
+
+        <!-- Kriter -->
+        <!--<div class="filter-item">
+            <label>Kriter:</label>
+            <p-dropdown [options]="kriterler" [(ngModel)]="selectedKriter"
+                        placeholder="Seçiniz" class="small-dropdown"></p-dropdown>
+        </div>
+        <div class="filter-buttons">-->
+            <!-- Yeni Başvuru -->
+            <!--<button type="button"
+                    pTooltip="Yeni Başvuru" tooltipPosition="top">
+                <span class="pi pi-plus" style="font-size: 1rem;"></span>
+            </button>-->
+
+            <!-- Fen Klasörü -->
+            <!--<button type="button"
+                    pTooltip="Fen Klasörü" tooltipPosition="top">
+                <span class="pi pi-folder" style="font-size: 1rem;"></span>
+            </button>-->
+
+            <!-- Arama -->
+            <!--<button type="button"
+                    pTooltip="Ara" tooltipPosition="top">
+                <span class="pi pi-search" style="font-size: 1rem;"></span>
+            </button>
+        </div>
+    </div>-->
+    <!-- Dialog İçeriği -->
+    <!--<div *ngIf="!minimized" class="dialog-table-container">
+        <p-table class="p-datatable-sm p-datatable-scrollable fixed-paginator-table"
+                 stripedRows
+                 [value]="basvurular"
+                 [responsive]="true"
+                 [resizableColumns]="true"
+                 columnResizeMode="fit"
+                 [paginator]="true"
+                 [rows]="25"
+                 [first]="first"
+                 [rowsPerPageOptions]="[25,50,100,200]"
+                 [paginatorPosition]="'bottom'"
+                 [showCurrentPageReport]="true"
+                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                 page="onPageChange($event)"
+                 [scrollable]="true"
+                 [scrollHeight]="'calc(100vh - 500px)'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pResizableColumn pSortableColumn="basvuruNo">
+                        Başvuru
+                    </th>
+                    <th pResizableColumn pSortableColumn="fenKayit">
+                        Fen Kayıt
+                    </th>
+                    <th pResizableColumn pSortableColumn="basvuruTip">
+                        Başvuru Tip
+                    </th>
+                    <th pResizableColumn pSortableColumn="ilce">
+                        İlçe
+                    </th>
+                    <th pResizableColumn pSortableColumn="islem">
+                        İşlem
+                    </th>
+                    <th pResizableColumn pSortableColumn="zemin">
+                        Zemin
+                    </th>
+                    <th pResizableColumn pSortableColumn="durum">
+                        Durum
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-basvuru>
+                <tr>
+                    <td>{{ basvuru.basvuruNo }}</td>
+                    <td>{{ basvuru.fenKayit }}</td>
+                    <td>{{ basvuru.basvuruTip }}</td>
+                    <td>{{ basvuru.ilce }}</td>
+                    <td>{{ basvuru.islem }}</td>
+                    <td>{{ basvuru.zemin }}</td>
+                    <td>{{ basvuru.durum }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>-->
+    <!-- Footer -->
+    <!-- <ng-template pTemplate="footer">
+         <div class="dialog-bottom-bar">
+             <p-paginator [rows]="rows"
+                          [totalRecords]="basvurular.length || 0"
+                          [rowsPerPageOptions]="[25,50,100,200]"
+                          [dropdownAppendTo]="'body'"
+                          (page)="onPageChange($event)">
+             </p-paginator>
+         </div>
+     </ng-template>-->
+<!--</p-dialog>-->
+<p-dialog header="Basvuru"
+          [visible]="visible"
+          [modal]="true"
+          [closable]="false"
+          [style]="{ width: '500px' }"
+          (onHide)="closeDialog()">
+
+
+    <!-- Sade Header: Sadece kapatma -->
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>{{ name }}</span>
+            <button type="button"
+                    class="p-dialog-header-icon p-link close-btn"
+                    (click)="closeDialog()">
+                <span class="pi pi-times"></span>
+            </button>
+        </div>
+    </ng-template>
+
+    <!-- Sade İçerik -->
+    <div style="padding: 20px; font-size: 16px; text-align:center;">
+        Bu modül üzerinde çalışma devam etmektedir.
+    </div>
+</p-dialog>

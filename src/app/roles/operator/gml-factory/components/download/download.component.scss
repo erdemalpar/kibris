@@ -1,0 +1,147 @@
+:host ::ng-deep .p-dialog {
+    border-radius: 12px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35); /* ✅ yumuşak gölge */
+    background: rgba(255, 255, 255, 0.15); /* hafif şeffaf */
+    backdrop-filter: blur(6px); /* ✅ cam efekti */
+    -webkit-backdrop-filter: blur(6px) !important;
+}
+
+/* Dialog içeriği padding ve radius korumak için */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    background: transparent !important; /* cam efektinin görünmesi için */
+    padding: 1rem;
+}
+
+/* Ortak header ayarları */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    padding: 0.4rem 0.8rem;
+    min-height: 2rem;
+    background-color: #3c4962; /* header arka plan */
+    color: #f8fafc; /* başlık yazısı */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Header ikon boyutları */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1rem;
+    color: #f8fafc;
+}
+
+/* SADECE minimize/restore için (X hariç) */
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-icon:not(.p-dialog-header-close):hover {
+    background-color: #00aaff !important; /* açık mavi hover */
+}
+
+/* Minimize ikonları beyaz */
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-minus,
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-clone {
+    color: #ffffff;
+}
+
+/* X normalde beyaz */
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-close .p-dialog-header-close-icon {
+    color: #ffffff;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* X hover: arka plan kırmızı, ikon beyaz */
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-close:enabled:hover {
+    background-color: #ff4d4f !important; /* kırmızı arka plan */
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header
+.p-dialog-header-close:enabled:hover .p-dialog-header-close-icon {
+    color: #ffffff !important; /* beyaz ikon */
+}
+
+:host ::ng-deep .custom-download-btn.p-button {
+    background-color: #3c4962 !important; /* Normal arka plan */
+    border-color: #3c4962 !important; /* Kenar rengi */
+    color: white !important; /* Yazı rengi */
+}
+
+:host ::ng-deep .custom-download-btn.p-button:hover,
+:host ::ng-deep .custom-download-btn.p-button:focus {
+    background-color: #55627a !important; /* Hover/focus arka plan */
+    border-color: #55627a !important; /* Hover/focus kenar */
+    color: white !important; /* Yazı rengi */
+}
+
+:host ::ng-deep .custom-download-btn.p-button:disabled {
+    background-color: #a0a0a0 !important; /* Disabled arka plan */
+    border-color: #a0a0a0 !important; /* Disabled border */
+    color: #eee !important; /* Disabled yazı */
+}
+
+/* Tüm dropdown kutuları için ortak stil */
+:host ::ng-deep .p-dropdown {
+    min-height: 2rem; /* Kutunun minimum yüksekliği */
+    display: flex;
+    align-items: center; /* Seçili yazıyı dikey ortala */
+    height: 2rem; /* zorla küçült */
+    font-size: 0.85rem; /* yazı boyutu küçült */
+}
+
+/* Dropdown içindeki yazının kaymaması için */
+:host ::ng-deep .p-dropdown-label {
+    line-height: 2.0rem; /* Kutunun yüksekliği ile aynı */
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+}
+
+:host ::ng-deep .p-multiselect {
+    min-height: 2.0rem;
+    height: 2rem; /* zorla küçült */
+    font-size: 0.85rem; /* yazı boyutu küçült */
+}
+
+:host ::ng-deep .p-multiselect .p-multiselect-label {
+    min-height: 2.0rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+}
+
+.card {
+    max-width: 360px;
+    margin: 8px auto;
+    padding: 12px 10px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(60,80,120,0.10);
+}
+
+/* Icon boyutlarını küçült */
+:host ::ng-deep .p-dropdown .p-dropdown-trigger,
+:host ::ng-deep .p-multiselect .p-multiselect-trigger {
+    width: 2rem;
+    height: 2rem;
+}
+
+:host ::ng-deep .p-dropdown .pi,
+:host ::ng-deep .p-multiselect .pi {
+    font-size: 0.8rem;
+}
+
+/* Dropdown menü elemanlarının fontunu küçült */
+:host ::ng-deep .p-dropdown-items .p-dropdown-item,
+:host ::ng-deep .p-multiselect-items .p-multiselect-item {
+    font-size: 0.85rem;  /* daha küçük yazı */
+    padding: 0.4rem 0.6rem; /* satır yüksekliğini de küçült */
+}
+
+/* Seçili öğeyi gösteren label alanını da küçültelim */
+:host ::ng-deep .p-dropdown-label,
+:host ::ng-deep .p-multiselect-label {
+    font-size: 0.85rem;
+}

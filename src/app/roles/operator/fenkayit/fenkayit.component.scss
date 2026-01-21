@@ -1,0 +1,471 @@
+// --------------------------------------------------------------------------
+// GENEL DIALOG STİLLERİ
+// --------------------------------------------------------------------------
+
+// PrimeNG Dialog penceresinin dış çerçevesini özelleştirme
+:host ::ng-deep .p-dialog {
+    border-radius: 12px !important; // Köşeleri 12px yuvarlat
+    overflow: hidden; // İçerik taşarsa gizle
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); // Pencereye derinlik katan gölge efekti
+}
+
+/* Dialog içerik (gövde) kısmı ayarları */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    border-bottom-left-radius: 12px; // Alt sol köşeyi yuvarlat
+    border-bottom-right-radius: 12px; // Alt sağ köşeyi yuvarlat
+    padding: 0.15rem 1.5rem !important; // İç boşluk: Üst/Alt az, Sağ/Sol geniş
+}
+
+/* Filtreleme yapılan satırın (div) düzeni */
+:host ::ng-deep .p-dialog .filter-row {
+    display: flex; // Yan yana dizilim için Flexbox
+    align-items: center; // İçerikleri dikeyde ortala
+    gap: 0.25rem; // Elemanlar arası küçük boşluk
+    margin: 0; // Dış boşluğu sıfırla
+    padding: 0; // İç boşluğu sıfırla
+}
+
+/* Filtre satırındaki etiketlerin (label) hizalanması */
+:host ::ng-deep .filter-row label {
+    margin: 0; // Label etrafındaki boşluğu temizle
+    line-height: 24px; // Satır yüksekliği (Input ile aynı hizada olması için)
+    height: 24px; // Yükseklik sabitleme
+    display: flex; // Flex düzeni
+    align-items: center; // Dikey ortalama
+    font-size: 0.75rem; // Yazı boyutu (küçük)
+}
+
+/* Dialog başlık (Header) kısmının ortak ayarları */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    padding: 0.4rem 0.8rem; // Başlık iç boşlukları
+    min-height: 2rem; // Minimum yükseklik
+    background-color: #3c4962; // Arka plan rengi (Koyu gri-mavi)
+    color: #f8fafc; // Yazı rengi (Kırık beyaz)
+    display: flex; // Flexbox
+    align-items: center; // Dikey ortalama
+    justify-content: space-between; // Başlık ve ikonları iki uca yasla
+    border-top-left-radius: 12px; // Üst sol köşe yuvarlatma
+    border-top-right-radius: 12px; // Üst sağ köşe yuvarlatma
+}
+
+/* Header içindeki ikonların (kapat, küçült vb.) boyutları */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+    width: 1.5rem; // İkon butonu genişliği
+    height: 1.5rem; // İkon butonu yüksekliği
+    font-size: 1rem; // İkon sembol boyutu
+    color: #f8fafc; // İkon rengi (Beyazımsı)
+}
+
+/* SADECE minimize/restore butonları için hover (üzerine gelince) efekti (X butonu hariç) */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:not(.close-btn):hover {
+    background-color: #00aaff !important; // Açık mavi arka plan (Vurgu)
+}
+
+/* Kapatma (X) butonu için hover efekti */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon.close-btn:hover {
+    background-color: #ff4d4d !important; // Kırmızı arka plan (Uyarı rengi)
+}
+
+// --------------------------------------------------------------------------
+// DEĞİŞKENLER (VARIABLES)
+// --------------------------------------------------------------------------
+// Tasarımda kullanılacak renk paleti tanımları
+$header-bg: #2d5f8b; // Ana başlıklar için koyu mavi
+$panel-header-bg: #eef6ff; // Alt panellerin başlığı için çok açık mavi
+$border-color: #cce3f8; // Kenarlıklar için açık mavi
+$text-color: #333; // Genel metin rengi (Koyu gri)
+$text-muted: #777; // Pasif/Silik metin rengi (Gri)
+
+// --------------------------------------------------------------------------
+// TAM EKRAN VE MİNİMİZE MODLARI
+// --------------------------------------------------------------------------
+
+// Dialog tam ekran olduğunda uygulanacak stiller
+::ng-deep .dialog-fullscreen {
+    width: 100vw !important; // Genişlik: Ekranın tamamı
+    height: 100vh !important; // Yükseklik: Ekranın tamamı
+    max-height: 100vh !important; // Maksimum yükseklik sınırı
+    top: 0 !important; // Yukarı yapıştır
+    left: 0 !important; // Sola yapıştır
+    border: none; // Kenarlığı kaldır
+    border-radius: 0; // Köşe yuvarlatmayı kaldır (Dik köşe)
+
+    .p-dialog-header {
+        border-radius: 0; // Header köşelerini de dik yap
+    }
+
+    .p-dialog-content {
+        height: calc(100vh - 40px) !important; // Header yüksekliğini (40px) düşerek kalan alanı hesapla
+        border-radius: 0; // İçerik köşelerini dik yap
+    }
+}
+
+// Dialog küçültüldüğünde (minimized) uygulanacak stiller
+::ng-deep .dialog-minimized {
+    .p-dialog-content {
+        display: none; // İçeriği tamamen gizle (Sadece başlık kalır)
+    }
+}
+
+// Genel p-dialog üzerine yazılan ek stiller
+::ng-deep p-dialog {
+    .p-dialog-header {
+        padding: 0; // Özel header kullandığımız için varsayılan padding'i sıfırla
+        background: $header-bg; // Değişkendeki koyu maviyi kullan
+        color: white; // Yazı rengi beyaz
+        height: 40px; // Header yüksekliği sabitle
+    }
+
+    .p-dialog-content {
+        padding: 0 !important; // İçerik padding'ini sıfırla (Tam kaplasın diye)
+        overflow: hidden; // İçerik taşmasını engelle
+    }
+}
+
+// --------------------------------------------------------------------------
+// ÖZEL BİLEŞENLER (Custom Header, Toolbar, Splitter)
+// --------------------------------------------------------------------------
+
+// Varsayılan PrimeNG header yerine kullanılan özel başlık yapısı
+.dialog-header-custom {
+    display: flex;
+    justify-content: space-between; // İki uca yasla (Başlık sol, butonlar sağ)
+    align-items: center; // Dikey ortala
+    width: 100%;
+    height: 100%;
+    padding: 0 10px; // Sağdan soldan biraz boşluk
+    background-color: $header-bg; // Koyu mavi arka plan
+    color: white;
+    font-size: 14px;
+    font-weight: bold; // Kalın yazı tipi
+
+    .header-actions {
+        display: flex;
+        gap: 8px; // Butonlar arası boşluğu biraz açtık
+        align-items: center;
+
+        .window-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%; // Yuvarlak butonlar
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease; // Yumuşak geçiş
+
+            i {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.8); // Hafif soft beyaz
+            }
+
+            // Normal buton hover (Minimize / Maximize)
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                transform: scale(1.1); // Hafif büyüme efekti
+
+                i {
+                    color: white;
+                }
+            }
+
+            // Kapatma butonu özel hover
+            &.close-btn:hover {
+                background-color: #ff5f57; // Mac tarzı kırmızı
+                transform: scale(1.1) rotate(90deg); // Dönme efekti ekleyelim
+
+                i {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+// Dialog içeriğini saran ana kapsayıcı
+.dialog-content-wrapper {
+    display: flex;
+    flex-direction: column; // Öğeleri alt alta diz (Toolbar, Splitter, Footer)
+    height: 100%;
+    background-color: white;
+}
+
+// Üst Araç Çubuğu (Arama inputu vb. için)
+.top-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // Arama solda, aksiyonlar sağda
+    padding: 5px 10px;
+    border-bottom: 1px solid $border-color; // Altına çizgi çek
+    background-color: white;
+    height: 45px; // Sabit yükseklik
+
+    .search-group {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        input {
+            width: 200px; // Input genişliği
+            border-color: #b0cbe8; // Input kenarlık rengi
+        }
+    }
+
+    .toolbar-right-actions {
+        button {
+            margin-left: 5px; // Butonlar arası sol boşluk
+            color: $header-bg; // Yazı/İkon rengi (Koyu mavi)
+        }
+    }
+}
+
+// Splitter (Bölünebilir Alan) Konteynerı
+.splitter-container {
+    flex: 1; // Kalan tüm dikey boşluğu kapla
+    overflow: hidden; // Taşmayı gizle
+    padding: 0; // Padding kaldırıldı (bitişik görünüm için)
+    background-color: white;
+
+    ::ng-deep .p-splitter {
+        border: none; // Splitter dış çerçevesini kaldır
+        height: 100% !important; // Yüksekliği %100 yap
+
+        // Paneller arası ayırıcı çizgi (Gutter - Tutamaç)
+        .p-splitter-gutter {
+            width: 4px !important; // Tutabilmek için 4px genişlik
+            background-color: #e3effa; // Renk (Açık mavi)
+            border-left: 1px solid $border-color; // Sol kenarlık
+            border-right: 1px solid $border-color; // Sağ kenarlık
+            margin: 0 -1px; // Çizgilerin üst üste binmesi için negatif margin
+            z-index: 10; // Diğer öğelerin üstünde görünsün
+
+            &:hover {
+                background-color: #d1d9e0; // Mouse ile üzerine gelince koyulaşsın
+            }
+
+            .p-splitter-gutter-handle {
+                display: none; // Tutamaç üzerindeki küçük ikonu gizle (daha sade görünüm)
+            }
+        }
+    }
+}
+
+// Splitter içindeki Panellerin Stili
+.panel-content {
+    display: flex;
+    flex-direction: column; // Panel başlığı ve içeriği alt alta
+    height: 100%;
+    width: 100%; // Genişliği panele %100 yap
+    border: none; // Border yok (Splitter gutter sınır görevi görüyor)
+    border-radius: 0; // Köşeleri dik yap
+    overflow: hidden;
+
+    // Panel Başlığı
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; // Header tam genişlik
+        background-color: $panel-header-bg; // Açık mavi arka plan
+        padding: 6px 10px; // Padding ayarı
+        font-size: 13px;
+        font-weight: 600; // Yarı kalın font
+        color: #2c4a6b; // Koyu mavi yazı
+        border-bottom: 1px solid $border-color; // Alt çizgi
+        border-top: 1px solid $border-color; // Üst çizgi
+
+        .header-icons {
+            i {
+                margin-left: 8px; // İkonlar arası boşluk
+                cursor: pointer; // Tıklanabilir el işareti
+                color: #666; // İkon rengi (Gri)
+                font-size: 12px;
+
+                &:hover {
+                    color: $header-bg; // Hover'da ana mavi rengi al
+                }
+            }
+        }
+    }
+
+    // Panel Gövdesi (İçerik)
+    .panel-body {
+        flex: 1; // Kalan alanı doldur
+        display: flex;
+        flex-direction: column;
+        padding: 0; // İçerik padding'i sıfırladık
+        font-size: 13px;
+        color: $text-color;
+        overflow: auto; // İçerik taşarsa kaydırma çubuğu çıkar
+        border-top: none;
+
+        // Panel gövdesindeki span ve div'lere varsayılan padding ver (harita vs hariç)
+        >span,
+        >div:not(.sub-panel):not(.map-wrapper) {
+            padding: 10px;
+        }
+
+        // Ortalanmış metin modu (Örn: "Veri yok" yazısı)
+        &.centered-text {
+            align-items: center;
+            justify-content: center;
+            color: $text-muted;
+            font-weight: 500;
+        }
+
+        // Padding olmaması gereken durumlar için class
+        &.no-padding {
+            padding: 0;
+        }
+
+        // İşlemler listesi boş durum stili
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: $text-muted;
+            padding: 10px;
+        }
+    }
+}
+
+// En alttaki Durum Çubuğu (Footer Status Bar)
+.footer-status {
+    height: 25px; // İnce bir şerit
+    background-color: #f0f0f0; // Açık gri arka plan
+    border-top: 1px solid #ddd; // Üste ayırıcı çizgi
+    display: flex;
+    align-items: center; // Dikey ortala
+    padding: 0 10px;
+    font-size: 11px; // Çok küçük font
+    color: #666;
+
+    i {
+        font-size: 10px; // İkon boyutu
+        margin-right: 5px; // Yazı ile ikon arası boşluk
+    }
+}
+
+/* Minimize ve Clone ikonlarını beyaz yap */
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-minus,
+:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-clone {
+    color: #ffffff;
+}
+
+// --------------------------------------------------------------------------
+// KÜÇÜK BİLEŞEN AYARLARI (Dropdown, Datatable)
+// --------------------------------------------------------------------------
+
+// Küçük boyutlu Dropdown ayarları
+.small-dropdown .p-dropdown-label {
+    line-height: 20px;
+    height: 20px;
+    font-size: 0.50rem; // Çok küçük yazı
+}
+
+.small-dropdown .p-dropdown-trigger {
+    height: 2px; // Ok işaretinin olduğu alanın yüksekliği (muhtemelen görsel bir tweak)
+}
+
+/* Tam ekran modu için p-dialog zorlamaları */
+:host ::ng-deep .p-dialog.dialog-fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important; // Kenar boşluklarını sıfırla
+}
+
+/* Küçük boyutlu Tablo (Datatable) ayarları */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr>td {
+    padding: 0.8rem 0.50rem !important;
+    /* Hücre iç boşluğunu küçült */
+    font-size: 0.85rem !important;
+    /* Yazı boyutunu küçült */
+    line-height: 0.9rem !important;
+    /* Satır yüksekliğini sıkılaştır */
+    white-space: nowrap;
+    /* Metin taşmasını ve alt satıra geçmesini engelle */
+}
+
+/* p-dialog içeriğinin varsayılan padding ayarını koru (Filtre hizası için) */
+/* p-dialog içeriğinin varsayılan padding ayarını sıfırla */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding: 0 !important;
+}
+
+/* Sadece alt taraftaki menü bölümü (dialog-body) için özel yerleşim */
+:host ::ng-deep .dialog-body {
+    margin: 0 -1.5rem;
+    /* İçeriği sağa ve sola doğru genişleterek parent padding'i yok say */
+    // padding: 0 !important; /* iç boşluğu sıfırla (yorum satırı) */
+    width: 100%;
+    height: 100%;
+    display: flex; // Flex düzeni (Yan yana paneller için)
+    gap: 0.75rem; // Öğeler arası boşluk
+    box-sizing: border-box; // Padding ve Border genişliğe dahil olsun
+}
+
+/* PrimeNG Kart (Card) bileşeni üzerindeki margin'i kaldır */
+:host ::ng-deep .p-card {
+    margin: 0 !important;
+    /* 🔹 kartlar arasında veya kenarda margin olmasın */
+}
+
+/* Panel Kart Yapısı (Flex oranları) */
+:host ::ng-deep .panel-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    &.panel-1 {
+        flex: 1 1 0%; // Genişlik oranı: 1 birim (Daha dar paneller)
+    }
+
+    /* işlemler paneli */
+    &.panel-2 {
+        flex: 2 1 0%; // Genişlik oranı: 2 birim (Daha geniş paneller, örn: ana tablo)
+    }
+
+    /* diğer paneller varsayılan davranır */
+}
+
+/* -------------------------------------------------------------------------- */
+/* YENİ EKLENEN: SOL SÜTUN İÇİN DİKEY BÖLME (Resimdeki Yapı) */
+/* -------------------------------------------------------------------------- */
+/*
+   Sol taraftaki "İşlemler" ve "Seçili İşlem Belgeler" alanlarını
+   alt alta göstermek için HTML'de kapsayıcı div'e 'vertical-stack' sınıfı verin.
+*/
+:host ::ng-deep .vertical-stack {
+    display: flex;
+    flex-direction: column;
+    /* Yan yana değil, alt alta diz */
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    /* Bu sarmalayıcının içindeki panel-content'ler için özel ayar */
+    .panel-content {
+        height: auto !important;
+        /* Varsayılan %100 yüksekliği ez */
+        flex: 1;
+        /* Alanı dikeyde eşit paylaş (%50 - %50) */
+
+        /* Üstteki panelin (İşlemler) altına ayırıcı çizgi ekle */
+        &:first-child {
+            border-bottom: 4px solid #e3effa;
+            /* Resimdeki kalın açık mavi çizgi */
+        }
+
+        /* İkinci (alttaki) panelde ekstra border olmasın */
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}

@@ -1,0 +1,194 @@
+<div class="layout-topbar" [ngClass]="{
+        'border-bottom-none': layoutService.config().topbarTheme !== 'light'
+    }">
+    <div class="layout-topbar-start">
+        <a #mobileMenuButton class="layout-menu-button lg:hidden" (click)="onMenuButtonClick()" pRipple>
+            <i class="pi pi-bars"></i>
+        </a>
+
+        <a class="layout-topbar-logo" routerLink="/main-map">
+            <img [src]="
+                    'assets/layout/images/logo-' +
+                    (layoutService.config().topbarTheme === 'light'
+                        ? 'kibris-megsis'
+                        : 'kibris-megsis-dark') +
+                    '.png'
+                " alt="kibris-megsis-layout" style="height: 40px" />
+        </a>
+        <a class="lg:hidden" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="scalein"
+            leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+            <img src="assets/layout/images/avatar-profile.png" alt="demo" class="cursor-pointer" />
+        </a>
+        <div class="layout-topbar-menu shadow-2 px-3 hidden" style="top: 9rem">
+            <ul class="list-none p-0 m-0">
+                <li class="mb-2">
+                    <div class="flex gap-3 p-3 bg-primary-600">
+                        <img src="assets/layout/images/avatar-profile.png" alt="demo" />
+                        <div class="flex flex-column cursor-pointer">
+                            <span class="font-semibold text-white">{{
+                                this.authorizationService.fullName
+                                }}</span>
+                            <span class="text-xs font-normal text-white">{{
+                                this.authorizationService.role
+                                }}</span>
+                        </div>
+                    </div>
+                </li>
+                <!--<li class="py-3 px-4 flex gap-2 cursor-pointer">
+                    <a>
+                        <i class="pi-user-edit text-lg mr-3"></i>
+                        <span class="font-semibold">Profil Ayarları</span>
+                    </a>
+                </li>-->
+                <!-- <li class="py-3 px-4 flex gap-2 cursor-pointer">
+                    <a>
+                        <i class="pi pi-file pi-lock text-lg mr-3"></i>
+                        <span class="font-semibold">Kullanım</span>
+                    </a>
+                </li> -->
+                <!--<li class="py-3 px-4 flex gap-2 cursor-pointer">
+                    <a>
+                        <i class="pi pi-question-circle text-lg mr-3"></i>
+                        <span class="font-semibold">Yardım</span>
+                    </a>
+                </li>-->
+                <li class="py-3 px-4 flex gap-2 cursor-pointer">
+                    <a>
+                        <i class="pi pi-power-off text-lg mr-3"></i>
+                        <span class="font-semibold">Çıkış</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layout-topbar-end surface-border">
+        <div class="layout-topbar-actions-start">
+            <!-- <a *ngIf="!layoutService.isHorizontal()" #menuButton class="layout-menu-button hidden lg:flex"-->
+            <a *ngIf="false" #menuButton class="layout-menu-button hidden lg:flex"
+               (click)="onMenuButtonClick()" pRipple>
+                <i class="pi pi-bars"></i>
+            </a>
+        </div>
+
+        <div class="minimized-dialogs" style="display: flex; gap: 0.5rem;">
+            <div  *ngFor="let name of menuService.minimizedOrder$ | async"
+                 class="minimized-dialog-box">
+                <span>{{ name }}</span>
+
+                <!-- Büyüt butonu (opsiyonel, restore ile aynı) -->
+                <button class="p-dialog-header-icon p-link grow-btn"
+                        (click)="restoreDialog(name); $event.stopPropagation()">
+                    <span class="pi pi-clone"></span>
+                </button>
+
+                <!-- Kapat butonu -->
+                <button class="p-dialog-header-icon p-link close-btn"
+                        (click)="closeDialog(name); $event.stopPropagation()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+        <!-- Eski basit menubar - yorum satırına alındı -->
+        <!-- <p-menubar [model]="items" class="topbar-menubar"></p-menubar> -->
+        <!-- Yeni responsive menubar -->
+        <!-- <p-menubar [model]="items" class="topbar-menubar"
+               [styleClass]="isMobile ? 'mobile-menubar' : 'desktop-menubar'"
+               [autoZIndex]="true"></p-menubar>
+    -->
+        <div class="layout-topbar-actions-end">
+            <ul class="layout-topbar-items">
+                <!-- <li>
+                <a pStyleClass="@next" enterFromClass="hidden" enterActiveClass="scalein" leaveToClass="hidden"
+                    leaveActiveClass="fadeout" [hideOnOutsideClick]="true" pRipple>
+                    <i class="pi pi-cog"></i>
+                </a>
+                <div class="layout-topbar-menu shadow-2 pt-0 hidden cursor-pointer">
+                    <ul class="list-none p-0 m-0">
+                        <li class="flex justify-content-between align-items-center px-3 p-3 mb-3">
+                            <h6 class="m-0 font-semibold">Ayarlar</h6>
+                        </li>
+                        <li>
+                            <a class="py-2 px-3 flex gap-2 align-items-center cursor-pointer">
+                                <div class="flex align-items-center justify-content-center border-1 border-circle border-transparent text-500"
+                                    style="height: 30px; width: 30px">
+                                    <i class="pi pi-user-edit text-lg"></i>
+                                </div>
+                                <h6 class="m-0 font-semibold">
+                                    Hesap Bilgisi
+                                </h6>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li> -->
+                <li class="layout-topbar-profile">
+                    <a *ngIf="!layoutService.isMobile()" pStyleClass="@next" enterFromClass="hidden"
+                       enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout"
+                       [hideOnOutsideClick]="true">
+                        <div class="flex gap-2">
+                            <img src="assets/layout/images/avatar-profile.png" alt="demo" />
+                            <div class="flex flex-column">
+                                <span class="font-semibold">
+                                    {{
+                                    this.authorizationService.fullName
+                                    }}
+                                </span>
+                                <span class="text-sm">
+                                    {{
+                                    this.authorizationService.role
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="layout-topbar-menu p-0 shadow-2 hidden">
+                        <ul class="list-none p-0 m-0">
+                            <li class="mb-2">
+                                <div class="flex gap-3 p-3 bg-primary-600">
+                                    <img src="assets/layout/images/avatar-profile.png" alt="demo" />
+                                    <div class="flex flex-column cursor-pointer">
+                                        <span class="font-semibold text-white">
+                                            {{
+                                            this.authorizationService
+                                            .fullName
+                                            }}
+                                        </span>
+                                        <span class="text-xs font-normal text-white">
+                                            {{
+                                            this.authorizationService.role
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <!--<li class="py-3 px-4 flex gap-2 cursor-pointer">
+                                <a>
+                                    <i class="pi pi-user-edit text-lg"></i>
+                                    <span class="font-semibold mx-3">Profil Ayarları</span>
+                                </a>
+                            </li>-->
+                            <!-- <li class="py-3 px-4 flex gap-2 cursor-pointer">
+                            <a>
+                                <i class="pi pi-file pi-lock text-lg"></i>
+                                <span class="font-semibold mx-3">Kullanım</span>
+                            </a>
+                        </li> -->
+                            <!--<li class="py-3 px-4 flex gap-2 cursor-pointer">
+                                <a>
+                                    <i class="pi pi-question-circle text-lg"></i>
+                                    <span class="font-semibold mx-3">Destek</span>
+                                </a>
+                            </li>-->
+                            <li class="py-3 px-4 flex gap-2 cursor-pointer" (click)="onLogout()">
+                                <a>
+                                    <i class="pi pi-power-off text-lg"></i>
+                                    <span class="font-semibold mx-3">Çıkış</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,431 @@
+.page-container {
+    height: calc(100vh - 80px); /* üst navbar varsa */
+    display: flex;
+    flex-direction: column;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* CRITICAL */
+}
+
+.filter-area {
+    flex-shrink: 0;
+}
+
+.table-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* CRITICAL */
+}
+
+.table-wrapper .p-datatable-wrapper {
+    flex: 1;
+}
+
+.placeholder {
+    flex: 1;
+}
+
+.card {
+    //max-width: 420px;
+    width: 98%;
+    margin: 10px auto;
+    padding: 32px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60,80,120,0.10);
+    background: #f9fafb; // açık arka plan
+}
+
+/*
+h2 {
+    margin-bottom: 1px;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    color: #3b4a6b;
+    margin-top: 10px;
+}
+*/
+.header-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    color: #ffffff;
+    background-color: #3b4a6b; /* İstediğiniz arka plan rengi */
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+/* 🔹 Sadece bu component içindeki kartlar için */
+:host ::ng-deep .p-dialog .card {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 32px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60, 80, 120, 0.10);
+    background: #f9fafb; // açık arka plan 
+}
+
+/* 🔹 Sadece diyalog içindeki başlıklar */
+:host ::ng-deep .p-dialog .card h2,
+:host ::ng-deep .p-dialog .card h3 {
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+    color: #3b4a6b;
+}
+
+
+/* Filtre öğeleri (label + dropdown) */
+.filter-item {
+    display: flex; /* yatay hizalama */
+    flex-direction: row;  /*label ve dropdown yan yana */
+    align-items: center; /* dikey ortalama */
+    gap: 6px;  /*label ve dropdown arası boşluk */
+    min-width: 160px; /* tüm dropdownlar aynı genişlikte */
+}
+
+.filter-item button {
+    height: 25px;
+    line-height: 25px;
+    font-size: 0.9rem;
+}
+
+/*
+ Label küçültme */
+.filter-item label {
+    font-size: 0.85rem;
+    color: #3b4a6b;
+    white-space: nowrap;  /*label taşmasın */
+    width: auto;  /*sabit label genişliği */
+}
+
+ /*PrimeNG dropdown küçültme */
+::ng-deep .p-dropdown {
+    font-size: 0.9rem;
+    height: 25px;
+    flex: 1;  /*kalan alanı kapla */
+}
+
+::ng-deep .p-dropdown .p-dropdown-label {
+    line-height: 10px;
+}
+
+::ng-deep .p-dropdown .p-dropdown-trigger {
+    height: 25px; /* dropdown yüksekliği ile uyumlu */
+    width: 25px;/*  ikon kutusu genişliği */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+::ng-deep .p-dropdown .p-dropdown-trigger .pi {
+    font-size: 0.9rem;  /*ok ikonunun boyutu */
+    color: #6366f1;/*  ikon rengi */
+    transition: color 0.2s;
+}
+
+::ng-deep .p-dropdown .p-dropdown-trigger:hover .pi {
+    color: #2e3a59; /* hover rengi */
+}
+
+/* Küçük arama butonu */
+::ng-deep .p-button.ml-auto {
+    height: 25px; 
+    line-height: 25px; 
+    padding: 0 12px;  
+    font-size: 0.9rem; 
+}
+
+:host ::ng-deep .p-datatable-sm {
+    border: none;
+    border-radius: 6px;
+    border-collapse: collapse;
+    margin: 0 !important;
+    border-spacing: 0 !important;
+    overflow: hidden;
+}
+
+/* 🔹 Tablo Başlık Hücreleri (TH) */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead > tr > th {
+    border-right: 1px solid #d9d9d9;  
+    border-bottom: 2px solid #b0b0b0;  
+    background-color: #f8f9fa;  
+    font-weight: 600;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap; 
+    font-size: 0.85rem !important;
+    padding: 0.8rem 0.5rem !important;
+    line-height: 0.6rem !important;  
+    color: #0f0d0d !important;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+/* 🔹 Başlıkta Son Sütunun Sağ Çizgisini Kaldırma */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead > tr > th:last-child {
+    border-right: none !important;
+}
+
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr > td:last-child {
+    border-right: none !important;
+}
+
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none !important;
+}
+
+/* 🔹 Tablo Veri Hücreleri (TD) Ortak Ayarları */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr > td {
+    border: none !important; 
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap; 
+    font-size: 0.85rem !important;
+    padding: 0.8rem 0.5rem !important;
+    line-height: 0.6rem !important;
+    font-weight: 500;
+    color: #0f0d0d !important;
+}
+
+/* 🔹 Tek Sayılı Satır Arka Planı */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+/* 🔹 Çift Sayılı Satır Arka Planı (Zebra Etkisi) */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:nth-child(even) {
+    background-color: #eff2f6 !important;
+    }
+
+
+/* Geometri Ekle Kartı */
+:host ::ng-deep .p-dialog {
+    border-radius: 12px !important;
+    overflow: hidden; /* köşe taşmasını engeller */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+
+}
+
+/* 🔹 Dialog ana kutusunun gövdesine gölge ve radius ver */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+    background: #f9fafb;
+}
+
+/* 🔹 Dialog başlığına (header kısmına) da aynı radius */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+    background: #3b4a6b;
+    color: #fff;
+    padding: 1rem;
+}
+
+:host ::ng-deep .p-dialog .card {
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(60, 80, 120, 0.15);
+    margin-top: 0.1rem !important;
+    margin: 0.2rem auto !important;
+    padding: 16px 18px !important;
+}
+
+:host ::ng-deep .p-dialog .card h3 {
+    color: #3b4a6b;
+    font-weight: 600;
+}
+
+:host ::ng-deep .p-dialog .field label {
+    font-size: 0.85rem;
+    color: #3b4a6b;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    color: #6366f1;
+    font-size: 15px;
+    border: 1px solid #bfc8e6;
+    background: #f4f6fa;
+    max-width: 100%; /* 🔹 kart dışına taşmasın */
+    overflow: hidden; /* 🔹 taşan içerik gizlensin */
+}
+
+.file-info span {
+    display: inline-block;
+    flex: 1; /* 🔹 ikonla buton arasında kalan alanı kapla */
+    overflow: hidden; /* 🔹 taşanı gizle */
+    text-overflow: ellipsis; /* 🔹 "..." olarak göster */
+    white-space: nowrap; /* 🔹 alt satıra geçmesin */
+    min-width: 0; /* 🔹 flex bug fix */
+}
+
+.upload-label {
+    display: block;
+    margin-bottom: 18px;
+    cursor: pointer;
+}
+
+.select-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 0;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 2px dashed #bfc8e6; // açık gri
+    background: #f4f6fa; // açık arka plan
+    color: #3b4a6b;
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.select-btn i {
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.select-btn:hover {
+    background: #e3e8f0;
+    border-color: #6366f1;
+    color: #2e3a59;
+}
+
+input[type="file"] {
+    margin-bottom: 12px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    color: #6366f1;
+    font-size: 15px;
+    border: 1px solid #bfc8e6;
+    background: #f4f6fa;
+}
+
+.file-info i {
+    font-size: 1.2rem;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+    justify-content: center !important;  /*ortalama */
+}
+
+::ng-deep .p-dialog .p-dialog-title {
+    font-weight: bold !important;
+    font-size: 1.2rem;
+    text-align: center;
+    flex: 1;  
+}
+
+/* Dialog içeriği ile header arasındaki boşluğu azalt */
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding-top: 0.5rem !important; /* varsayılan 1.5-2rem civarındadır */
+    padding-bottom: 1rem !important;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.icon-btn i {
+    font-size: 1.3rem;
+    color: #6366f1;
+}
+
+.icon-btn:hover i {
+    color: #f87171;
+}
+/*
+td .p-button-text.p-button-rounded.p-button-sm:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
+}
+
+
+
+.p-button-text.p-button-rounded.p-button-sm {
+    transition: transform 0.2s, background-color 0.2s;
+}*/
+
+
+/* Tablodaki ikon hücrelerini ortala */
+:host ::ng-deep .p-datatable td.text-center {
+    vertical-align: middle;
+}
+
+
+
+/* Tablodaki ikon sütunlarını daralt */
+:host ::ng-deep .responsive-table th.action-col,
+:host ::ng-deep .responsive-table td.text-center {
+    width: 48px; /* masaüstü için dar alan */
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.4rem !important;
+}
+
+/* PrimeNG varsayılan hücre boşluklarını küçült */
+:host ::ng-deep .responsive-table .p-datatable-tbody > tr > td {
+    padding: 0.45rem 0.6rem !important;
+}
+
+/* Buton hover efekti */
+.p-button-text.p-button-rounded.p-button-sm {
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.p-button-text.p-button-rounded.p-button-sm:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
+}
+
+/* 📱 Mobil görünüm optimizasyonu */
+@media (max-width: 768px) {
+    :host ::ng-deep .responsive-table th.action-col,
+    :host ::ng-deep .responsive-table td.text-center {
+        width: 36px; /* ikon kolonları daha dar */
+        padding: 0.25rem !important;
+    }
+
+    :host ::ng-deep .responsive-table .p-datatable-tbody > tr > td {
+        font-size: 0.9rem;
+    }
+
+    /* Dropdownları mobilde biraz küçült */
+    :host ::ng-deep .p-dropdown {
+        font-size: 0.9rem;
+    }
+
+    .map-container {
+        height: 300px;
+    }
+}

@@ -1,0 +1,14 @@
+.card {
+    max-width: 80%;
+    margin: 0 auto;
+    border-radius: 12px;
+
+    h2 {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    ::ng-deep .p-accordion-header {
+        font-weight: 500;
+    }
+}

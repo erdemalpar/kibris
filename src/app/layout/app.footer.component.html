@@ -1,0 +1,31 @@
+<div class="layout-footer p-2 w-full">
+    <!--<img
+    [src]="'assets/layout/images/logo-' + (layoutService.config().topbarTheme === 'light' ? 'kibris-megsis' : 'kibris-megsis-dark') + '.png'"
+    [height]="40"
+    alt="kibris-megsis-layout"> -->
+    <div class="flex gap-2 w-full">
+        <!-- Minimized dialog göstergesi -->
+        <!--<div *ngIf="menuService.basvuruMinimized$ | async"
+         class="minimized-dialog-box"
+         (click)="menuService.openBasvuruDialog(); menuService.setBasvuruMinimized(false)">
+        <span>Başvuru İşlemleri</span>
+
+        <button type="button"
+                class="p-dialog-header-icon p-link grow-btn"
+                (click)="menuService.openBasvuruDialog(); menuService.setBasvuruMinimized(false); $event.stopPropagation()"
+                tooltipPosition="top">
+            <span class="pi pi-clone"></span>
+        </button>
+
+        <button type="button"
+                class="p-dialog-header-icon p-link close-btn"
+                (click)="menuService.setBasvuruMinimized(false); $event.stopPropagation()"
+                tooltipPosition="top">
+            <span class="pi pi-times"></span>
+        </button>
+    </div>-->
+        <div *ngIf="isDownloading" class="footer-progress w-full">
+            <p-progressBar [value]="progressValue" [showValue]="false"></p-progressBar>
+        </div>
+    </div>
+</div>

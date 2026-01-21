@@ -1,0 +1,64 @@
+<div class="leaflet-top leaflet-right">
+    <div class="leaflet-bar custom-toolbar leaflet-control">
+        <p-button icon="fg-layers" (click)="toggleMenu('layer')" title="Katmanlar" tooltipPosition="top"></p-button>
+        <p-button icon="fg-zoom-in" (click)="zoomIn()" title="Yakınlaştır" tooltipPosition="top"></p-button>
+        <p-button icon="fg-zoom-out" (click)="zoomOut()" title="Uzaklaştır" tooltipPosition="top"></p-button>
+        <p-button icon="fg-point" (click)="drawPoint()" title="Nokta At" tooltipPosition="top"></p-button>
+        <p-button icon="fg-polyline" (click)="drawLine()" title="Mesafe Çiz" tooltipPosition="top"></p-button>
+        <p-button icon="fg-polygon-o" (click)="drawPolygon()" title="Alan Çiz" tooltipPosition="top"></p-button>
+        <p-button icon="pi pi-eraser" (click)="clearMap()" title="Temizle" tooltipPosition="top"></p-button>
+        <p-button icon="pi pi-info-circle" (click)="identify()" tooltip="Identify" title="Haritadan Sorgula" tooltipPosition="top"></p-button>
+        <p-button icon="pi pi-fw pi-cloud-download" (click)="openDownloadData()" title="Onaylı Veri İndir" tooltipPosition="top"></p-button>
+        <p-button icon="fg-select-extent" (click)="openWktDialog()" title="WKT Göster" tooltipPosition="top"></p-button>
+        <p-button icon="fg-location-on" (click)="openCoordinateDialog()" title="Koordinata Git" tooltipPosition="top"></p-button>
+    </div>
+</div>
+
+<div class="layer-menu" [class.open]="openMenu === 'layer'">
+    <ul>
+        <li *ngFor="let mapType of mapTypes">
+            <!-- Eğer isLabel true ise checkbox -->
+            <ng-container *ngIf="mapType.isLabel; else radioItem">
+                <label class="menu-item-toggle cursor-pointer flex items-center">
+                    <input type="checkbox"
+                           [(ngModel)]="mapType.active"
+                           [id]="mapType.value"
+                           (change)="onLabelChange(mapType.value, $event)"
+                           class="menu-input-checkbox" />
+                    <span class="ml-2">{{ mapType.label }}</span>
+                </label>
+                <!-- Legend for Değerleme -->
+                <div *ngIf="mapType.value === 'degerlemeGuncel' && mapType.active" class="pl-4 mt-2">
+                    <div class="flex align-items-center mb-1">
+                        <div class="w-1rem h-1rem border-round mr-2" style="background-color: #fca5a5;"></div>
+                        <span class="text-sm">Ticari</span>
+                    </div>
+                    <div class="flex align-items-center mb-1">
+                        <div class="w-1rem h-1rem border-round mr-2" style="background-color: #93c5fd;"></div>
+                        <span class="text-sm">Konut</span>
+                    </div>
+                    <div class="flex align-items-center mb-1">
+                        <div class="w-1rem h-1rem border-round mr-2" style="background-color: #86efac;"></div>
+                        <span class="text-sm">Arazi</span>
+                    </div>
+                    <div class="flex align-items-center">
+                        <div class="w-1rem h-1rem border-round mr-2" style="background-color: #d1d5db;"></div>
+                        <span class="text-sm">Arsa</span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- isLabel false ise radio button -->
+            <ng-template #radioItem>
+                <label class="cursor-pointer flex items-center"
+                       (click)="onMapTypeClick(mapType.value)">
+                    <input type="radio"
+                           [id]="mapType.value"
+                           name="mapType"
+                           [value]="mapType.value"
+                           [(ngModel)]="selectedMapType" />
+                    <span class="ml-2">{{ mapType.label }}</span>
+                </label>
+            </ng-template>
+        </li>
+    </ul>
+</div>

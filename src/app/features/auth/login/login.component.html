@@ -1,0 +1,51 @@
+<div class="h-screen text-bluegray-200"
+         style="background-image:url('/assets/layout/images/background.jpg');
+         background-repeat: no-repeat;
+         background-position: center center;
+         background-size: cover;
+         min-height: 100vh;
+         "
+>
+    <div class="flex justify-content-center align-items-center h-full ">
+        <div class="h-full text-center py-6 px-4 flex justify-content-between flex-column max-w-30rem">
+            <a [routerLink]="['/']">
+                <img src="assets/layout/images/logo-kibris-megsis-dark.png"
+                     alt="kibris-megsis-layout"
+                     height="70px" />
+            </a>
+            <div class="glass-card p-5 text-center w-20rem card-pos">
+                <div class="flex justify-content-center mb-4 gap-2">
+                    <img src="assets/layout/images/flag_turkey.png" alt="Logo 1"  style="height:15px; vertical-align:middle;">
+                    <img src="assets/layout/images/Flag_of_the_Turkish_Republic_of_Northern_Cyprus.png" alt="Logo 2" style="height:15px; vertical-align:middle;">
+                </div>
+                <h2 class="text-bluegray-50">Giriş Yap</h2>
+                <input type="text"
+                       autocomplete="off"
+                       pInputText
+                       placeholder="Kullanıcı Adı"
+                       class="w-11 mb-4 text-bluegray-600 surface-ground "
+                       [(ngModel)]="loginDto.username"
+                       name="username" />
+                <input type="password"
+                       autocomplete="off"
+                       pInputText
+                       placeholder="Password"
+                       class="w-11 mb-4 text-bluegray-600 surface-ground "
+                       [(ngModel)]="loginDto.password"
+                       name="password" />
+                <button pButton
+                        pRipple
+                        label="Login"
+                        type="button"
+                        class="w-11 "
+                        (click)="signIn()" [loading]="loading"></button>
+            </div>
+
+            <p class="font-semibold m-0 text-bluegray-200">
+
+            </p>
+        </div>
+    </div>
+</div>
+<app-config [minimal]="true"></app-config>
+<p-toast key="notification" position="bottom-right" [style]="{'white-space': 'pre-line'}">

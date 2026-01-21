@@ -1,0 +1,9 @@
+<div *ngIf="showMap" class="map-wrapper mt-3">
+    <div class="map-header flex justify-content-between items-center mb-2">
+        <button (click)="closeMap()"
+                class="p-2 bg-red-500 hover:bg-red-600 text-white rounded shadow-md">
+            <i class="pi pi-times"></i> Kapat
+        </button>
+    </div>
+    <div [id]="mapId" class="map-container"></div>
+</div>

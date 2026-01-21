@@ -1,0 +1,231 @@
+<div style="height: calc(100vh - 100px); overflow-y: auto; overflow-x: hidden;">
+    <div class="grid">
+        <!-- Summary Cards -->
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0 shadow-2 relative">
+                <div class="card-loader" *ngIf="loadingTotalDistricts">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Toplam İlçe</span>
+                        <div class="text-900 font-medium text-xl">{{totalDistricts}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                         style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-map text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0 shadow-2 relative">
+                <div class="card-loader" *ngIf="loadingTotalNeighborhoods">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Toplam Mahalle</span>
+                        <div class="text-900 font-medium text-xl">{{totalNeighborhoods}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                         style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-home text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0 shadow-2 relative">
+                <div class="card-loader" *ngIf="loadingTotalParcels">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Toplam Parsel</span>
+                        <div class="text-900 font-medium text-xl">{{totalParcels | number}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                         style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-th-large text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0 shadow-2 relative">
+                <div class="card-loader" *ngIf="loadingMostPopulated">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">{{mostPopulatedLabel}}</span>
+                        <div class="text-900 font-medium text-xl">{{mostPopulatedDistrict}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                         style="width: 2.5rem; height: 2.5rem">
+                        <i class="pi pi-chart-line text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Map and Details -->
+        <!-- Flattened Structure -->
+        <div class="col-12 lg:col-9 xl:col-9">
+            <div class="card shadow-2 h-full relative">
+                <div class="card-loader" *ngIf="loadingMap">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>İlçe Haritası</h5>
+                <div class="relative" style="height: 500px; width: 100%;">
+                    <div id="districtMap" style="height: 100%; width: 100%; z-index: 1;"></div>
+
+                    <!-- Clear Selection Button -->
+                    <button pButton type="button" icon="pi pi-map"
+                            class="p-button-rounded p-button-secondary absolute shadow-2"
+                            style="top: 10px; right: 10px; z-index: 9999; width: 3rem; height: 3rem; border-radius: 50% !important;"
+                            (click)="clearMapSelection()" *ngIf="selectedMapDistrict" pTooltip="Seçimi Temizle"
+                            tooltipPosition="left">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3">
+            <div class="card shadow-2 h-full flex flex-column justify-content-center align-items-center text-center relative">
+                <div class="card-loader" *ngIf="loadingMapDetails">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!selectedMapDistrict">
+                    <i class="pi pi-map-marker text-600 mb-3" style="font-size: 3rem"></i>
+                    <span class="text-600 block">Detaylarını görmek için haritadan bir ilçe seçiniz.</span>
+                </div>
+                <div *ngIf="selectedMapDistrict" class="w-full">
+                    <i class="pi pi-map text-primary mb-3" style="font-size: 3rem"></i>
+                    <h4 class="text-900 font-bold mb-4">{{selectedMapDistrict.name}}</h4>
+
+                    <div class="grid w-full">
+                        <div class="col-12 text-center mb-3">
+                            <span class="text-500 block text-sm">Toplam Parsel</span>
+                            <span class="text-900 font-bold text-3xl">
+                                {{
+selectedMapDistrict.parcelCount |
+                                number
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Charts -->
+        <div class="col-12 lg:col-9 xl:col-9 flex">
+            <div class="card shadow-2 relative w-full h-full">
+                <div class="card-loader" *ngIf="loadingParcelChart">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <h5>İlçelere Göre Parsel Dağılımı {{!isDistrictView ? '(' + selectedDistrictName + ')' : ''}}</h5>
+                    <button pButton icon="pi pi-arrow-left" label="Geri" class="p-button-text p-button-sm"
+                            *ngIf="!isDistrictView" (click)="clearMapSelection()"></button>
+                </div>
+                <div class="w-full overflow-x-auto pb-2">
+                    <div [style.min-width]="chartMinWidth">
+                        <p-chart #parcelChart type="bar" [data]="parcelByDistrictChart"
+                                 [options]="parcelByDistrictOptions" height="300px"></p-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3 flex">
+            <div class="card shadow-2 w-full h-full relative">
+                <div class="card-loader" *ngIf="loadingUserChart">
+                    <div class="my-loader">
+                        <div class="my-loader-inner">
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                            <div class="my-loader-line-wrap">
+                                <div class="my-loader-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Personel İşlem Dağılımı</h5>
+                <div class="flex justify-content-center">
+                    <p-chart type="doughnut" [data]="userPerformanceChart" [options]="userPerformanceOptions"
+                             height="300px"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

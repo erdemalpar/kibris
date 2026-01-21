@@ -1,0 +1,73 @@
+<div class="p-fluid overflow-hidden">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmitClick()">
+    <div class="grid justify-content-center flex-column lg:flex-row">
+
+      
+
+      <div class="col-12 lg:col-6">
+        <label for="crudType">Tip</label>
+        <p-dropdown
+          #dd
+          inputId="crudType"
+          [options]="crudTypes"
+          optionLabel="value"
+          optionValue="id"
+          appendTo="body"
+          formControlName="crudType"
+          placeholder="Tip Seçiniz"
+          [showClear]="true"
+        >
+          <ng-template  let-crudType pTemplate="selectedItem">
+            <span *ngIf="crudType" class="selected-label">
+              {{ crudType.value | crudTypesPipe }}
+            </span>
+            <span *ngIf="!crudType" class="selected-label">
+              Tip Seçiniz
+            </span>
+          </ng-template>
+
+          <ng-template let-crudType pTemplate="item">
+            <div class="flex align-items-center">
+              <div>
+                <span [class]="'type-status status-' + crudType.id">
+                  {{ crudType.value | crudTypesPipe }}
+                </span>
+              </div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small class="p-error" *ngIf="myForm.get('crudType')?.invalid && myForm.get('crudType')?.touched">
+            Tip seçimi zorunludur.
+        </small>
+      </div>
+      <div class="col-12 lg:col-6">
+        <label for="description">Açıklama</label>
+        <input
+          id="description"
+          type="text"
+          pInputText
+          formControlName="description"
+        />
+        <small class="p-error" *ngIf="myForm.get('description')?.invalid && myForm.get('description')?.touched">
+            Açıklama zorunludur.
+        </small>
+      </div>
+      <div class="col-12 flex justify-content-center gap-2 mt-4">
+        <button
+          pButton
+          type="submit"
+          label="Kaydet"
+          [loading]="loading"
+          [disabled]="myForm.invalid" ></button>
+        <button
+          pButton
+          type="button"
+          label="Vazgeç"
+          class="p-button-text"
+          (click)="onCancelClick()"
+        ></button>
+      </div>
+
+    </div>
+  </form>
+</div>

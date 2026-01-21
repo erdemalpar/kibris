@@ -1,0 +1,139 @@
+#map {
+    //height: 89.5vh; /*77vh*/
+    //width: auto;
+   // width: 100%;
+    // height: 100%;
+    position: absolute; /* topbar’ın üstünden başlasın */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* topbar’ın altında */
+}
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    //height: 100%;
+    height: calc(100vh - 60px); /* Menü ya da header varsa hesapla */
+}
+
+:host ::ng-deep .leaflet-coords {
+    font-family: Arial, sans-serif;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.65);
+    /* Sağ tarafa kaydırmak için */
+    right: auto; /* varsayılan: top-left ise, left yerine right ekle */
+    left: 280px; /* left’i iptal et */
+    top: 48px; /* yukarıdan mesafe */
+    position: relative; /* veya absolute, map container ile hizalanacak şekilde */
+}
+
+
+
+:host ::ng-deep .leaflet-control-togglemenu {
+    background: transparent; /* arka plan tamamen şeffaf */
+    box-shadow: none; /* kutucuk gölgesi yok */
+    margin-left: 251px !important; /* Sağa kaydır */
+    top: 45px !important;
+    position: absolute !important; /* absolute olmalı */
+    z-index: 1000; /* diğer elementlerin üstünde olsun */
+}
+
+body.menu-collapsed :host ::ng-deep .leaflet-control-togglemenu {
+    margin-left: 0px !important; // Menü kapandığında yeni konum
+}
+
+:host ::ng-deep .menu-toggle-btn {
+    border: 2px solid #3C4962; /* ince çerçeve */
+    border-radius: 0%; /* tam daire yap */
+    background-color: #3C4962; /* beyaz arka plan */
+    width: 35px; /* kare boyutu */
+    height: 29px; /* kare boyutu */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* hover animasyonu */
+}
+
+:host ::ng-deep .menu-toggle-btn i {
+    font-size: 24px;
+    color: #ffffff;
+    line-height: 1;
+    transition: transform 0.2s ease-in-out;
+}
+
+:host ::ng-deep .menu-toggle-btn:hover {
+    background-color: #ffffff; /* hover’da arka plan mavi */
+}
+
+:host ::ng-deep .menu-toggle-btn:hover i {
+    color: #3C4962; /* hover’da ikon beyaz */
+    transform: scale(1.2); /* hover’da ikon biraz büyüsün */
+}
+
+
+
+
+
+
+/*
+.leaflet-control-north {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    pointer-events: none; // Haritaya tıklamayı engellemesin
+    margin-top: -20px;
+    margin-right: -5px;
+}
+
+.leaflet-control-north i {
+    font-size: 32px;
+    color: #0a5b96;
+}
+*/
+/*
+.custom-toolbar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.custom-toolbar-button {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.custom-toolbar-button:hover {
+    background: #f4f4f4;
+    border-color: #888;
+}
+
+.custom-toolbar-button:active {
+    background: #ddd;
+    border-color: #666;
+}
+
+.custom-toolbar-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
+}
+*/

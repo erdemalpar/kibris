@@ -1,0 +1,9 @@
+<div class="card p-3">
+    <h2 class="mb-3">Sıkça Sorulan Sorular</h2>
+
+    <p-accordion [multiple]="true">
+        <p-accordionTab *ngFor="let faq of faqs" [header]="faq.title">
+            <p>{{ faq.content }}</p>
+        </p-accordionTab>
+    </p-accordion>
+</div>

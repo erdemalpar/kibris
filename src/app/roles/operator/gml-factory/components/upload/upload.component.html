@@ -1,0 +1,207 @@
+<div class="col-12">
+  <div class="card p-3">
+    <h2>GML Yükleme Ekranı</h2>
+
+    <!-- İlçe Seçimi -->
+    <div class="field mb-3 flex align-items-center">
+      <label for="ilce" class="block font-semibold mb-1 mr-2">İlçe Seçiniz</label>
+      <i
+        class="pi pi-info-circle text-blue-500 cursor-pointer"
+        pTooltip="Yüklemek istediğiniz GML dosyasının ait olduğu ilçeyi seçiniz."
+        tooltipPosition="right"
+      ></i>
+    </div>
+    <p-dropdown
+      [options]="ilceList"
+      [(ngModel)]="selectedIlce"
+      optionLabel="name"
+      placeholder="İlçe seçin"
+      styleClass="w-full"
+      (onChange)="onIlceChange($event)"
+    ></p-dropdown>
+
+    <!-- Mahalle Seçimi -->
+    <div class="field mb-3 flex align-items-center mt-3">
+      <label for="mahalle" class="block font-semibold mb-1 mr-2">Mahalle Seçiniz</label>
+      <i
+        class="pi pi-info-circle text-blue-500 cursor-pointer"
+        pTooltip="Yüklemek istediğiniz GML dosyasının ait olduğu mahalleyi seçiniz."
+        tooltipPosition="right"
+      ></i>
+    </div>
+    <p-dropdown
+      [options]="mahalleList"
+      [(ngModel)]="selectedMahalle"
+      optionLabel="name"
+      placeholder="Mahalle seçin"
+      styleClass="w-full"
+      [disabled]="!selectedIlce"
+    ></p-dropdown>
+
+    <!-- DOM Seçimi -->
+    <div class="field mb-3 flex align-items-center mt-3">
+      <label for="dom" class="block font-semibold mb-1 mr-2">Dilim Orta Meridyeni Seçiniz</label>
+      <i
+        class="pi pi-info-circle text-blue-500 cursor-pointer"
+        pTooltip="Ölçümünü yaptığınız bölgeye ait dilim orta meridyenini seçiniz. (33 veya 36)"
+        tooltipPosition="right"
+      ></i>
+    </div>
+    <p-dropdown
+      [options]="domOptions"
+      [(ngModel)]="domValue"
+      placeholder="DOM seçiniz"
+      [showClear]="false"
+      styleClass="w-full"
+      [disabled]="!selectedMahalle"
+    ></p-dropdown>
+
+    <!-- GML Yükleme -->
+    <div class="field mb-3 flex align-items-center mt-3">
+      <label class="block font-semibold mb-1 mr-2">Dosya Seçiniz</label>
+      <i
+        class="pi pi-info-circle text-blue-500 cursor-pointer"
+        pTooltip="Sadece NetCAD üzerinden .gml uzantılı olarak üretilmiş dosyaları yükleyebilirsiniz."
+        tooltipPosition="right"
+      ></i>
+    </div>
+    <label class="upload-label block mb-3">
+      <input type="file" accept=".gml" (change)="onFileSelected($event)" hidden />
+      <span class="select-btn">
+        <i class="pi pi-upload"></i> Dosya Seçiniz
+      </span>
+    </label>
+    <div
+      *ngIf="fileName"
+      class="file-info mb-3 flex align-items-center justify-content-between"
+    >
+      <span> <i class="pi pi-file mr-2"></i> {{ fileName }} </span>
+      <button type="button" class="icon-btn" (click)="onRemoveFile()">
+        <i class="pi pi-times-circle"></i>
+      </button>
+    </div>
+
+    <!-- Yükleme Butonu -->
+    <button
+      pButton
+      label="Yükle"
+      type="button"
+      class="p-button-success w-full mt-2"
+      [disabled]="this.app.isLoading || !fileName || !selectedIlce || !selectedMahalle || !domValue"
+      (click)="onUpload()"
+    ></button>
+  </div>
+</div>
+<!--<p-dialog header="Harita Ön İzleme Ekranı"
+          [(visible)]="showMapDialog"
+          [modal]="true"
+          [style]="{ width: '80vw', height: '80vh' }"
+          [baseZIndex]="10000"
+          (onShow)="mapPreview.onDialogShow()">
+    <p *ngIf="featureCollection && !featureCollection.allValid" class="text-red-500 font-semibold text-sm m-0">
+        ⚠️ GML dosyasında hata bulunmaktadır. İlgili objelere tıklayarak hataları görebilirsiniz. Lütfen hatalı objeleri düzeltip tekrar yükleyiniz.
+    </p>
+    <app-preview-map-ui #mapPreview
+                        [featureCollection]="featureCollection"
+                        [visible]="showMapDialog"></app-preview-map-ui>
+
+    <p-footer>
+        <button pButton
+                type="button"
+                label="Onayla"
+                class="p-button-success"
+                (click)="onConfirm()"
+                [disabled]="!featureCollection?.allValid"></button>
+    </p-footer>
+</p-dialog>--> 
+<!--<p-dialog header="Harita Ön İzleme Ekranı"
+          [(visible)]="showMapDialog"
+          [modal]="true"
+          [style]="{ width: '80vw', height: '80vh' }"
+          [baseZIndex]="10000"
+          (onShow)="mapPreview.onDialogShow()">-->
+
+    <!-- İçerik container -->
+    <!--<div style="display: flex; flex-direction: column; height: 100%;">-->
+        <!-- Hata mesajı -->
+        <!--<ng-container *ngIf="featureCollection?.validationResults?.length">
+            <p *ngFor="let msg of featureCollection.validationResults"
+               [ngClass]="{
+       'text-yellow-500 font-semibold': msg.exceptionStatus === 1,
+       'text-red-500 font-semibold': msg.exceptionStatus === 2
+     }"
+               class="text-sm m-0">
+                <span *ngIf="msg.exceptionStatus === 1">⚠️</span>
+                <span *ngIf="msg.exceptionStatus === 2">❌</span>
+                {{ msg.message }}
+            </p>
+        </ng-container>-->
+
+        <!-- Map alanı kalan yüksekliği kaplasın ve kendi içinde scroll olsun -->
+        <!--<div style="flex: 1; overflow: auto;">
+            <app-preview-map-ui #mapPreview
+                                [featureCollection]="featureCollection"
+                                [visible]="showMapDialog"
+                                style="width: 100%; height: 100%;">
+            </app-preview-map-ui>
+        </div>
+    </div>
+    <p-footer>
+        <button pButton
+                type="button"
+                label="Onayla"
+                class="p-button-success"
+                (click)="onConfirm()"
+                [disabled]="!featureCollection?.allValid"></button>
+    </p-footer>
+
+</p-dialog>-->
+
+<p-dialog header="Harita Ön İzleme Ekranı"
+          [(visible)]="showMapDialog"
+          [modal]="true"
+          [style]="{ width: '80vw', height: '80vh' }"
+          [baseZIndex]="10000"
+          (onShow)="mapPreview.onDialogShow()">
+    <!-- İçerik container -->
+    <div style="display: flex; flex-direction: column; height: 100%;">
+        <!-- Hata mesajı -->
+        <!--   <p *ngIf="featureCollection && !featureCollection.allValid" class="text-red-500 font-semibold text-sm m-0">
+           ⚠️ GML dosyasında hata bulunmaktadır. İlgili objelere tıklayarak hataları görebilirsiniz. Lütfen hatalı objeleri düzeltip tekrar yükleyiniz.
+       </p>-->
+        <!-- Hata mesajı ve butonu aynı satırda -->
+        <div *ngIf="featureCollection && !featureCollection.allValid"
+             style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+
+            <p class="text-red-500 font-semibold text-sm m-0">
+                ⚠️ GML dosyasında hata bulunmaktadır. İlgili objelere tıklayarak hataları görebilirsiniz.
+                Lütfen hatalı objeleri düzeltip tekrar yükleyiniz.
+            </p>
+
+            <button pButton
+                    type="button"
+                    label="Hatalı GML'leri İndir"
+                    icon="pi pi-download"
+                    class="p-button-danger p-button-sm"
+                    (click)="downloadInvalidGMLs()">
+            </button>
+        </div>
+
+        <!-- Map alanı kalan yüksekliği kaplasın ve kendi içinde scroll olsun -->
+        <div style="flex: 1; overflow: auto;">
+            <app-preview-map-ui #mapPreview
+                                [featureCollection]="featureCollection"
+                                [visible]="showMapDialog"
+                                style="width: 100%; height: 100%;">
+            </app-preview-map-ui>
+        </div>
+    </div>
+        <p-footer>
+            <button pButton
+                    type="button"
+                    label="Onayla"
+                    class="p-button-success"
+                    (click)="onConfirm()"
+                    [disabled]="this.app.isLoading || !featureCollection?.allValid"></button>
+        </p-footer>
+    </p-dialog>

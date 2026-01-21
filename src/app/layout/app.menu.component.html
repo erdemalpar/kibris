@@ -1,0 +1,120 @@
+<!--<ul class="layout-menu">
+    <ng-container *ngFor="let item of model; let i = index;">
+        <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+    </ng-container>
+</ul>-->
+<ul class="layout-menu">
+    <ng-container *ngFor="let item of model; let i = index;">
+        <li *ngIf="!item.separator" app-menuitem [item]="item" [index]="i" [root]="true"></li>
+    </ng-container>
+
+    <!-- Harita Menüsü -->
+    <!--<li class="layout-root-menuitem cursor-pointer harita-menu"
+        [class.active-menuitem]="isMapOpen"
+        (click)="toggleHarita()">
+
+        <div class="layout-menuitem-root-text flex items-center justify-between" pRipple>
+            <span class="flex items-center">
+                <i class="fg-map-o layout-menuitem-icon"></i>
+                Harita
+            </span>
+            <i class="pi layout-submenu-toggler pi-angle-down"></i>
+        </div>-->
+        <!-- Alt seçenekler -->
+        <!--<ul [class.open]="openMenu === 'map'">
+            <li *ngFor="let mapType of mapTypes">-->
+                <!-- Eğer isLabel true ise checkbox -->
+                <!--<ng-container *ngIf="mapType.isLabel; else radioItem">
+                    <a (click)="$event.stopPropagation()" class="menu-item-toggle">
+                        <input type="checkbox"
+                               [(ngModel)]="mapType.active"
+                               [id]="mapType.value"
+                               (change)="onLabelChange(mapType.value, $event)"
+                               class="menu-input-checkbox" />
+                        <label [for]="mapType.value" class="ml-2 w-full">{{ mapType.label }}</label>
+                    </a>
+                </ng-container>-->
+                <!-- isLabel false ise radio button -->
+                <!--<ng-template #radioItem>
+                    <a [class.active-route]="selectedMapType === mapType.value"
+                       (click)="onMapTypeClick(mapType.value)">
+                        <input type="radio"
+                               [id]="mapType.value"
+                               name="mapType"
+                               [value]="mapType.value"
+                               [(ngModel)]="selectedMapType"
+                               (click)="$event.stopPropagation()"
+                               (change)="onMapTypeChange(mapType.value)" />
+                        <label [for]="mapType.value" class="ml-2 w-full" (click)="$event.stopPropagation()">
+                            {{ mapType.label }}
+                        </label>
+                    </a>
+                </ng-template>
+            </li>
+        </ul>
+    </li>-->
+
+    <!-- Katman Menüsü -->
+    <!--<li class="layout-root-menuitem cursor-pointer katman-menu"
+        [class.active-menuitem]="isLayerOpen"
+        (click)="toggleLayer()">
+
+        <div class="layout-menuitem-root-text flex items-center justify-between" pRipple>
+            <span class="flex items-center">
+                <i class="fg-layer-o layout-menuitem-icon"></i>
+                Katman
+            </span>
+            <i class="pi layout-submenu-toggler pi-angle-down"></i>
+        </div>-->
+
+        <!-- Alt seçenekler -->
+        <!--<ul [class.open]="openMenu === 'layer'">
+            <li *ngFor="let layer of layerTypes">
+                <a>
+                    <input type="checkbox"
+                           [id]="layer.value"
+                           name="layerType"
+                           [value]="layer.value"
+                           [checked]="selectedLayerTypes.includes(layer.value)"
+                           (click)="$event.stopPropagation()"
+                           (change)="onLayerChange($event, layer.value)"/>
+                    <label [for]="layer.value" class="ml-2 w-full" (click)="$event.stopPropagation()">
+                        {{ layer.label }}
+                    </label>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+</ul>
+
+<!--
+<p-panelMenu [model]="model" styleClass="custom-menu"></p-panelMenu>
+
+<ng-template let-item pTemplate="submenu" let-submenu="submenu" let-index="index">
+    <ng-container *ngIf="item.label === 'Harita'; else defaultSubmenu">
+        <div class="p-3">
+            <div class="font-bold mb-2">{{ item.label }}</div>
+            <div *ngFor="let mapType of mapTypes" class="flex items-center mb-2">
+                <input type="radio"
+                       [id]="mapType.value"
+                       name="mapType"
+                       [value]="mapType.value"
+                       [(ngModel)]="selectedMapType"
+                       (change)="onMapTypeChange(mapType.value)">
+                <label [for]="mapType.value" class="ml-2">{{ mapType.label }}</label>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #defaultSubmenu>
+        <ul class="p-submenu-list">
+            <li *ngFor="let child of item.items">
+                <a class="p-menuitem-link" [routerLink]="child.routerLink">
+                    <span class="p-menuitem-icon" [ngClass]="child.icon"></span>
+                    <span class="p-menuitem-text">{{ child.label }}</span>
+                </a>
+            </li>
+        </ul>
+    </ng-template>
+</ng-template>
+-->

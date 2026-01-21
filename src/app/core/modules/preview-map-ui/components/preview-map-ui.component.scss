@@ -1,0 +1,62 @@
+.preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  position: relative; // info panel için
+}
+
+.map-container {
+  flex: 1;
+  min-height: 300px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.map-info {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  div {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.response-info {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 40%;
+  overflow-y: auto;
+
+  h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #444;
+  }
+
+  pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 0.75rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    max-height: 200px;
+  }
+}

@@ -1,0 +1,318 @@
+<!--<p-dialog [(visible)]="visible"
+          [modal]="false"
+          [style]="{width: minimized ? '300px' : '90%', maxWidth: '400px', height: minimized ? '50px' : 'auto'}"
+          [ngClass]="{'minimized': minimized, 'Coordinate-dialog': true}"
+          (onHide)="closeDialog()">-->
+
+<p-dialog #dialog
+          [visible]="visible"
+          [modal]="false"
+          [closable]="false"
+          [style]="dialogStyle"
+          [styleClass]="fullscreen ? 'dialog-fullscreen' : ''"
+          [ngClass]="dialogClass"
+          (onHide)="closeDialog()"
+          [draggable]="true">
+
+    <!-- Özel Header -->
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>Öznitelik Bilgileri</span>
+            <div style="display: flex; gap: 0rem;">
+                <button type="button"
+                        class="p-dialog-header-icon p-link minimize-btn"
+                        (click)="toggleMinimize()"
+                        pTooltip="{{ minimized ? 'Genişlet' : 'Küçült' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
+                </button>
+
+                <button type="button"
+                        class="p-dialog-header-icon p-link fullscreen-btn"
+                        (click)="toggleFullscreen()"
+                        pTooltip="{{ fullscreen ? 'Önceki Ekrana Dön' : 'Tam Ekran' }}"
+                        tooltipPosition="top">
+                    <span [class]="'pi ' + (fullscreen ? 'pi-clone' : 'pi-external-link')"></span>
+                </button>
+
+                <button type="button"
+                        class="p-dialog-header-icon p-link close-btn"
+                        (click)="closeDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Body -->
+    <div class="card-container" *ngIf="parcelDetails">
+        <div class="card-left">
+            <h6>İdari Birimler</h6>
+            <ul class="layer-list">
+                <ng-container *ngFor="let layer of layers">
+                    <li>
+                        <div class="li-content" (click)="toggleNode(layer)">
+                            <span class="pi" [ngClass]="{'pi-plus-circle': !layer.expanded, 'pi-minus-circle': layer.expanded}"></span>
+                            {{ layer.label }} <span *ngIf="layer.count">({{ layer.count }})</span>
+                        </div>
+                        <ul *ngIf="layer.expanded && layer.children">
+                            <ng-container *ngFor="let child of layer.children">
+                                <li>
+                                    <div class="li-content" (click)="toggleNode(child)">
+                                        <span class="pi" *ngIf="child.children" [ngClass]="{'pi-plus-circle': !child.expanded, 'pi-minus-circle': child.expanded}"></span>
+                                        {{ child.label }} <span *ngIf="child.count">({{ child.count }})</span>
+                                    </div>
+
+                                    <ul *ngIf="child.expanded && child.children">
+                                        <li *ngFor="let sub of child.children">
+                                            <div class="li-content"
+                                                 [class.active]="selectedLayer === sub"
+                                                 (click)="
+                                                     child.label === 'İlçe'
+             ? selectIlce(sub.label, sub)
+             : child.label === 'Mahalle'
+               ? selectMahalle(sub.label, sub)
+               : child.label === 'Ada'
+                 ? selectAda(sub.label, sub)
+                 : selectParcel(sub.label, sub)
+                                                 ">
+                                                {{ sub.label }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+
+        <div class="card-right-container">
+            <div class="card card-buttons">
+                <ng-container *ngIf="selectedParcel; else emptyButtons">
+                    <!-- Ada ise sadece Öznitelik -->
+                    <span *ngIf="selectedParcel.type !== 'parsel'" [class.active]="activeTab==='oznitelik'" (click)="setActiveTab('oznitelik')">Öznitelik</span>
+
+                    <!-- Mahalle veya Parsel ise tüm tablar -->
+                    <ng-container *ngIf="selectedParcel.type === 'parsel'">
+                        <span [class.active]="activeTab==='oznitelik'" (click)="setActiveTab('oznitelik')">Öznitelik</span>
+                        <span [class.active]="activeTab==='koordinat'" (click)="setActiveTab('koordinat')">Koordinat</span>
+                        <span [class.active]="activeTab==='geometri'" (click)="setActiveTab('geometri')">Geometri</span>
+                    </ng-container>
+                </ng-container>
+                <ng-template #emptyButtons></ng-template>
+            </div>
+
+            <div class="card card-content">
+                <ng-container *ngIf="selectedParcel; else emptyContent">
+                    <div class="parcel-info">
+                        <!-- Öznitelik Tabı -->
+                        <div *ngIf="activeTab==='oznitelik'">
+
+                            <!-- Bilgi Accordion -->
+                            <div class="accordion-section" *ngIf="selectedParcel?.type">
+                                <div class="accordion-header" (click)="toggleSection('oznitelik', 'parsel')">
+                                    <span class="pi"
+                                          [ngClass]="{
+                                            'pi-plus-circle': !expandedSections['oznitelik']['parsel'],
+                                            'pi-minus-circle': expandedSections['oznitelik']['parsel']
+                                          }"></span>
+                                    {{
+                                        selectedParcel?.type === 'ilce' ? 'İlçe Bilgileri'
+                                        :selectedParcel?.type === 'ada' ? 'Ada Bilgileri'
+                                        : selectedParcel?.type === 'mahalle' ? 'Mahalle Bilgileri'
+                                        : 'Parsel Bilgileri'
+                                    }}
+                                </div>
+
+                                <div class="accordion-body" *ngIf="expandedSections['oznitelik']['parsel']">
+
+                                    <!-- Ada -->
+                                    <ng-container *ngIf="selectedParcel?.type === 'ada'">
+                                        <div class="field">
+                                            <span class="label">Ad</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.adaNo }}</span>
+                                        </div>
+                                    </ng-container>
+
+                                    <!-- Mahalle -->
+                                    <ng-container *ngIf="selectedParcel?.type === 'mahalle'">
+                                        <div class="field">
+                                            <span class="label">Ad</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.mahalleAdi }}</span>
+                                        </div>
+                                    </ng-container>
+
+                                    <!-- Mahalle -->
+                                    <ng-container *ngIf="selectedParcel?.type === 'ilce'">
+                                        <div class="field">
+                                            <span class="label">Ad</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.ilceAdi }}</span>
+                                        </div>
+                                    </ng-container>
+
+                                    <!-- Parsel -->
+                                    <ng-container *ngIf="selectedParcel?.type === 'parsel'">
+                                        <div class="field">
+                                            <span class="label">Ada/Parsel</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.adaParsel }}</span>
+                                        </div>
+                                        <div class="field">
+                                            <span class="label">Tapu Alan/Geometri Alan</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.tapuAlani || '-' }} / {{ geometriAlan ? formatArea(geometriAlan) : '-' }}</span>
+                                        </div>
+                                        <div class="field">
+                                            <span class="label">Nitelik</span>
+                                            <span class="separator">:</span>
+                                            <span class="value">{{ selectedParcel.nitelik }}</span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <!-- Kullanım Amaç Bilgileri sadece parsel için -->
+                            <div class="accordion-section" *ngIf="selectedParcel?.type === 'parsel'">
+                                <div class="accordion-header" (click)="toggleSection('oznitelik', 'kullanim')">
+                                    <span class="pi"
+                                          [ngClass]="{
+                                            'pi-plus-circle': !expandedSections['oznitelik']['kullanim'],
+                                            'pi-minus-circle': expandedSections['oznitelik']['kullanim']
+                                          }"></span>
+                                    Kullanım Amaç Bilgileri
+                                </div>
+                                <div class="accordion-body" *ngIf="expandedSections['oznitelik']['kullanim']">
+                                    <div class="field">
+                                        <span class="label">Kullanım Türü</span>
+                                        <span class="separator">:</span>
+                                        <span class="value">{{ selectedParcel.kullanimTuru || '-' }}</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="label">Kullanım Durumu</span>
+                                        <span class="separator">:</span>
+                                        <span class="value">{{ selectedParcel.kullanimDurumu || '-'  }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Koordinat Tabı -->
+                        <div *ngIf="activeTab==='koordinat' && (selectedParcel?.type === 'parsel')">
+                            <div class="accordion-section">
+                                <div class="accordion-header" (click)="toggleSection('koordinat', 'koordinatBilgi')">
+                                    <span class="pi"
+                                          [ngClass]="{
+                                            'pi-plus-circle': !expandedSections['koordinat']['koordinatBilgi'],
+                                            'pi-minus-circle': expandedSections['koordinat']['koordinatBilgi']
+                                          }"></span>
+                                    Koordinat Bilgileri
+                                </div>
+                                <div class="accordion-body" *ngIf="expandedSections['koordinat']['koordinatBilgi']">
+                                    <p-table [value]="coordinates"
+                                             styleClass="cephe-table p-datatable-sm p-datatable-gridlines"
+                                             [responsiveLayout]="'scroll'">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width: 10%">Sıra</th>
+                                                <th style="width: 45%">Enlem (Lat)</th>
+                                                <th style="width: 45%" colspan="2">Boylam (Lon)</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-item let-index="rowIndex">
+                                            <tr>
+                                                <td>{{ index + 1 }}</td>
+                                                <td>{{ item.lat }}</td>
+                                                <td>{{ item.lon }}</td>
+                                                <td>
+                                                    <!-- Mercek butonu -->
+                                                    <button type="button"
+                                                            pButton
+                                                            icon="pi pi-search-plus"
+                                                            class="p-button-text p-button-sm"
+                                                            (click)="zoomToCoordinate(item)">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Geometri Tabı -->
+                        <div *ngIf="activeTab==='geometri' && (selectedParcel?.type === 'parsel')">
+                            <!-- Geometri Bilgileri -->
+                            <div class="accordion-section">
+                                <div class="accordion-header" (click)="toggleSection('geometri', 'geometriBilgi')">
+                                    <span class="pi"
+                                          [ngClass]="{
+                                            'pi-plus-circle': !expandedSections['geometri']['geometriBilgi'],
+                                            'pi-minus-circle': expandedSections['geometri']['geometriBilgi']
+                                          }"></span>
+                                    Geometri Bilgileri
+                                </div>
+                                <div class="accordion-body" *ngIf="expandedSections['geometri']['geometriBilgi']">
+                                    <div class="field">
+                                        <span class="label">Çevre Uzunluğu</span>
+                                        <span class="separator">:</span>
+                                        <span class="value">{{ geometriCevre ? formatLength(geometriCevre) : '-' }}</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="label">Geometri Alanı</span>
+                                        <span class="separator">:</span>
+                                        <span class="value">{{ geometriAlan ? formatArea(geometriAlan) : '-' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cephe Uzunlukları -->
+                            <div class="accordion-section">
+                                <div class="accordion-header" (click)="toggleSection('geometri', 'cepheUzunluk')">
+                                    <span class="pi"
+                                          [ngClass]="{
+                                             'pi-plus-circle': !expandedSections['geometri']['cepheUzunluk'],
+                                             'pi-minus-circle': expandedSections['geometri']['cepheUzunluk']
+                                          }"></span>
+                                    Cephe Uzunlukları
+                                </div>
+                                <div class="accordion-body" *ngIf="expandedSections['geometri']['cepheUzunluk']">
+                                    <p-table [value]="cepheList"
+                                             styleClass="cephe-table p-datatable-sm p-datatable-gridlines"
+                                             [responsiveLayout]="'scroll'">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width: 25%">Cephe</th>
+                                                <th style="width: 75%">Değer (m)</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-item let-index="rowIndex">
+                                            <tr>
+                                                <td>{{ item.index }}. Cephe</td>
+                                                <td class="text-right">{{ formatLength(item.length) }}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="footer">
+                                            <tr>
+                                                <td class="text-right"><strong>Toplam</strong></td>
+                                                <td class="text-right">
+                                                    <strong>{{ formatLength(geometriCevre) }}</strong>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+                <ng-template #emptyContent></ng-template>
+            </div>
+        </div>
+    </div>
+</p-dialog>

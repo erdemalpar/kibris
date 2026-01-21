@@ -1,0 +1,17 @@
+.type-status {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.status-a {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-b {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+}
