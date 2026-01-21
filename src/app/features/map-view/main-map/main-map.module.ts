@@ -29,6 +29,9 @@ import { SplitterModule } from 'primeng/splitter';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FenkayitComponent } from 'src/app/roles/operator/fenkayit/fenkayit.component';
 
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { RadioButtonModule } from 'primeng/radiobutton';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -47,10 +50,11 @@ import { FenkayitComponent } from 'src/app/roles/operator/fenkayit/fenkayit.comp
         DialogModule,
         MultiSelectModule,
         CardModule,
-        CardModule,
         PaginatorModule,
         SplitterModule,
-        ToolbarModule
+        ToolbarModule,
+        OverlayPanelModule,
+        RadioButtonModule
     ],
     declarations: [MainMapComponent, MapToolbarComponent, CoordinateComponent, WktComponent, BasvuruComponent, DownloadComponent, ParcelIdentifyComponent, FenkayitComponent],
 })

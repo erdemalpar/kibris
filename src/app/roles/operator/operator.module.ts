@@ -51,6 +51,8 @@ import { OperatorRoutingModule } from './operator-routing.module';
     InputTextModule,
     DropdownModule,
     TableModule,
+    OverlayPanelModule,
+    RadioButtonModule
   ]
 })
 export class OperatorModule { }

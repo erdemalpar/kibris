@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { MenuService } from 'src/app/layout/app.menu.service';
 import { Subscription } from 'rxjs';
+import * as L from 'leaflet';
+import { BASE_LAYER_CONFIGS } from 'src/app/features/map-view/main-map/config/map-layer.config';
 
 @Component({
     selector: 'app-fenkayit-dialog',
@@ -19,6 +21,7 @@ export class FenkayitComponent implements OnInit, OnDestroy {
     @Output() closed = new EventEmitter<void>();
 
     private sub?: Subscription;
+    private map: L.Map | undefined;
 
     // Arama
     searchBasvuruNo: string = '';
@@ -61,7 +64,12 @@ export class FenkayitComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() { this.sub?.unsubscribe(); }
+    ngOnDestroy() {
+        this.sub?.unsubscribe();
+        if (this.map) {
+            this.map.remove();
+        }
+    }
 
     openDialog(name: string) {
         this.menuService.openDialog(this.name);
@@ -69,6 +77,69 @@ export class FenkayitComponent implements OnInit, OnDestroy {
 
     closeDialog() {
         this.menuService.closeDialog(this.name);
+        this.fullscreen = false; // Kapatırken fullscreen'i sıfırla
+    }
+
+    onDialogShow() {
+        // Dialog animasyonu bittikten sonra haritayı başlat veya güncelle
+        setTimeout(() => {
+            this.initMap();
+        }, 100);
+    }
+
+    initMap() {
+        const mapContainer = document.getElementById('fen-map');
+        if (!mapContainer) return;
+
+        if (this.map) {
+            this.map.invalidateSize();
+            return;
+        }
+
+        // Config'den uydu haritasını alalım (veya default googleMap)
+        const baseLayers = BASE_LAYER_CONFIGS['googleSat'].layers;
+
+        this.map = L.map('fen-map', {
+            center: [35.2, 33.4], // Kıbrıs civarı
+            zoom: 9,
+            layers: baseLayers, // Config'den gelen katmanlar
+            zoomControl: false // Zoom kontrolünü isteğe bağlı kapatabilir veya konumlandırabiliriz
+        });
+
+        L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+    }
+
+    // Harita Altlık Seçenekleri
+    selectedBaseLayer: string = 'googleSat'; // Varsayılan
+
+    baseLayerOptions = [
+        { label: 'Google Uydu', value: 'googleSat' },
+        { label: 'Google Harita', value: 'googleMap' },
+        { label: 'OpenStreetMap', value: 'openstreetmap' },
+        { label: 'HGM', value: 'hgm' },
+        { label: 'Kıbrıs (WMS)', value: 'kibris' }
+    ];
+
+    changeBaseLayer(layerKey: string) {
+        if (!this.map) return;
+
+        // Bu key configde var mı kontrol et
+        if (!BASE_LAYER_CONFIGS[layerKey]) return;
+
+        // 1. Tüm base layerları temizle
+        Object.values(BASE_LAYER_CONFIGS).forEach(config => {
+            config.layers.forEach(l => {
+                if (this.map?.hasLayer(l)) {
+                    this.map?.removeLayer(l);
+                }
+            });
+        });
+
+        // 2. Yeni seçilen layerı ekle
+        const nextLayers = BASE_LAYER_CONFIGS[layerKey].layers;
+        nextLayers.forEach(l => this.map?.addLayer(l));
+
+        console.log(`Harita altlığı değiştirildi: ${layerKey}`);
     }
 
     toggleMinimize() {
@@ -84,6 +155,12 @@ export class FenkayitComponent implements OnInit, OnDestroy {
             this.minimized = false;
             this.visible = true;
         }
+        // Fullscreen geçişinde harita boyutunu güncelle
+        setTimeout(() => {
+            if (this.map) {
+                this.map.invalidateSize();
+            }
+        }, 300);
     }
 
     restoreDialog() {

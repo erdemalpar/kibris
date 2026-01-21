@@ -1,6 +1,6 @@
 <p-dialog #dialog [visible]="visible" [modal]="false" [closable]="false" [style]="dialogStyle"
     [styleClass]="fullscreen ? 'dialog-fullscreen' : ''" [ngClass]="dialogClass" [maximizable]="false"
-    (onHide)="closeDialog()" [draggable]="!fullscreen" [resizable]="!fullscreen">
+    (onHide)="closeDialog()" (onShow)="onDialogShow()" [draggable]="!fullscreen" [resizable]="!fullscreen">
 
     <!-- Header -->
     <ng-template pTemplate="header">
@@ -123,14 +123,28 @@
                         <div class="panel-header">
                             <span>Harita</span>
                             <div class="header-icons">
-                                <i class="pi pi-sliders-h"></i>
+                                <i class="pi pi-map" (click)="op.toggle($event)" style="cursor: pointer;"
+                                    pTooltip="Harita Altlığını Değiştir"></i>
+
+                                <!-- Harita Altlık Seçim Menüsü -->
+                                <p-overlayPanel #op styleClass="map-layer-overlay">
+                                    <ng-template pTemplate>
+                                        <div class="flex flex-column" style="gap: 2px;">
+                                            <div *ngFor="let option of baseLayerOptions" class="layer-option-item"
+                                                (click)="selectedBaseLayer = option.value; changeBaseLayer(option.value)">
+                                                <p-radioButton [inputId]="'fen-' + option.value" name="fenBaseLayer"
+                                                    [value]="option.value" [(ngModel)]="selectedBaseLayer"
+                                                    class="custom-radio"></p-radioButton>
+                                                <label [for]="'fen-' + option.value">{{ option.label }}</label>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-overlayPanel>
                             </div>
+
                         </div>
-                        <div class="panel-body no-padding map-wrapper">
-                            <!-- Harita Placeholder (Görseldeki gibi) -->
-                            <img src="assets/layout/images/map-placeholder.jpg" alt="Map"
-                                style="width:100%; height:100%; object-fit: cover;"
-                                onerror="this.style.display='none'; this.parentElement.innerHTML='To Do Map'" />
+                        <div class="panel-body no-padding" style="position: relative;">
+                            <div id="fen-map" style="width: 100%; height: 100%; z-index: 1;"></div>
                         </div>
                     </div>
                 </ng-template>
