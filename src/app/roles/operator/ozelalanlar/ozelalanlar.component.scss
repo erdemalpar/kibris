@@ -1,0 +1,249 @@
+:host ::ng-deep {
+    .p-dialog.ozel-alanlar-dialog {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+
+        .p-dialog-header {
+            background: linear-gradient(to right, #2c5da1, #1e457d);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: 40px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+
+            .header-buttons {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .custom-header-btn {
+                width: 28px !important;
+                height: 28px !important;
+                padding: 0 !important;
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.1) !important;
+                border: none !important;
+
+                .pi {
+                    font-size: 0.75rem;
+                    color: white;
+                }
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+
+                &.minimize-btn:hover {
+                    background: rgba(255, 255, 255, 0.3) !important;
+                }
+
+                &.maximize-btn:hover {
+                    background: rgba(255, 255, 255, 0.3) !important;
+                }
+
+                &.close-btn:hover {
+                    background: #ff4d4f !important;
+                }
+            }
+
+            .p-dialog-header-close {
+                display: none;
+            }
+        }
+
+        .p-dialog-content {
+            padding: 0;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .p-dialog-footer {
+            padding: 0;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        &.dialog-fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            top: 0 !important;
+            left: 0 !important;
+            max-height: none !important;
+            transform: none !important;
+            border-radius: 0;
+
+            .p-dialog-header,
+            .p-dialog-footer {
+                border-radius: 0;
+            }
+        }
+
+        &.dialog-minimized {
+            display: none !important;
+        }
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: white;
+    }
+
+    .toolbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: #ffffff;
+        border-bottom: 1px solid #f0f0f0;
+        color: #495057;
+        font-size: 0.85rem;
+
+        .p-dropdown {
+            height: 30px;
+            border-radius: 6px;
+
+            .p-inputtext {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 4px;
+
+            button {
+                width: 32px;
+                height: 32px;
+                border-radius: 6px;
+                transition: all 0.2s;
+
+                .pi {
+                    font-size: 1rem;
+                    color: #2c5da1;
+                }
+
+                &:hover {
+                    background-color: #f0f5ff;
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    .table-scroll-container {
+        flex: 1;
+        overflow: auto;
+
+        // Custom Scrollbar
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #2c5da1;
+            border-radius: 10px;
+
+            &:hover {
+                background: #1e457d;
+            }
+        }
+    }
+
+    .p-datatable {
+        .p-datatable-thead>tr>th {
+            background-color: #fafafa;
+            color: #262626;
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #f0f0f0;
+            white-space: nowrap;
+        }
+
+        .p-datatable-tbody>tr>td {
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            border: 1px solid #f0f0f0;
+            color: #595959;
+        }
+
+        .p-datatable-tbody>tr:hover {
+            background-color: #f0f7ff !important;
+        }
+    }
+
+    .table-footer-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        color: #595959;
+
+        .footer-message {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c5da1;
+            font-weight: 500;
+
+            .pi {
+                font-size: 0.8rem;
+            }
+        }
+
+        .paginator-mock {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .paginator-buttons {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                .page-number {
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #2c5da1;
+                    color: white;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                }
+
+                button {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 4px;
+
+                    &:hover {
+                        background: #e6f7ff;
+                    }
+
+                    .pi {
+                        font-size: 0.8rem;
+                        color: #2c5da1;
+                    }
+                }
+            }
+        }
+    }
+}

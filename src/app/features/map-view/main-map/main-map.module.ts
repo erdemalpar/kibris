@@ -28,6 +28,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SplitterModule } from 'primeng/splitter';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FenkayitComponent } from 'src/app/roles/operator/fenkayit/fenkayit.component';
+import { OzelalanlarComponent } from 'src/app/roles/operator/ozelalanlar/ozelalanlar.component';
 
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -56,6 +57,6 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         OverlayPanelModule,
         RadioButtonModule
     ],
-    declarations: [MainMapComponent, MapToolbarComponent, CoordinateComponent, WktComponent, BasvuruComponent, DownloadComponent, ParcelIdentifyComponent, FenkayitComponent],
+    declarations: [MainMapComponent, MapToolbarComponent, CoordinateComponent, WktComponent, BasvuruComponent, DownloadComponent, ParcelIdentifyComponent, FenkayitComponent, OzelalanlarComponent],
 })
 export class MainMapModule { }

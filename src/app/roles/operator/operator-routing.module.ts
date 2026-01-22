@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from 'src/app/layout/app.layout.component';
+import { OzelalanlarComponent } from './ozelalanlar/ozelalanlar.component';
 
 
 const routes: Routes = [
@@ -42,13 +43,17 @@ const routes: Routes = [
                     import('../../features/map-view/main-map/main-map.module').then(
                         (m) => m.MainMapModule
                     ),
+            },
+            {
+                path: 'ozelalanlar',
+                component: OzelalanlarComponent
             }
         ]
     }
 ];
 @NgModule({
-        imports: [RouterModule.forChild(routes)],
-        exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class OperatorRoutingModule { }
 
