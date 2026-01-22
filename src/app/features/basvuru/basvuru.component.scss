@@ -5,166 +5,376 @@
 /* 🔹 Ana Dialog Konteyneri */
 :host ::ng-deep .p-dialog {
     border-radius: 12px !important;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Oval kenarlar */
+    overflow: visible !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    border: 2px solid #1f3a52;
+}
+
+/* 🔹 Dialog Resize Handle'ları */
+:host ::ng-deep .p-dialog .p-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    background: transparent;
+    z-index: 90;
+}
+
+/* 🔹 Sağ Alt Köşe Resize Handle - ÇOK DAHA GENİŞ */
+:host ::ng-deep .p-dialog .p-dialog-bottom-right {
+    cursor: se-resize;
+    bottom: -8px;
+    right: -8px;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+/* 🔹 Resize Handle Görsel İşaretçisi - Daha Büyük */
+:host ::ng-deep .p-dialog .p-dialog-bottom-right::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 18px 18px;
+    border-color: transparent transparent #2b577e transparent;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-bottom-right:hover::after {
+    opacity: 1;
+    border-width: 0 0 22px 22px;
+    border-color: transparent transparent #1e5a9e transparent;
+}
+
+/* 🔹 Alt Kenar Resize - ÇOK DAHA GENİŞ */
+:host ::ng-deep .p-dialog .p-dialog-bottom {
+    cursor: s-resize;
+    height: 16px !important;
+    width: 100%;
+    bottom: -8px;
+    left: 0;
+}
+
+/* 🔹 Sağ Kenar Resize - ÇOK DAHA GENİŞ */
+:host ::ng-deep .p-dialog .p-dialog-right {
+    cursor: e-resize;
+    width: 16px !important;
+    height: 100%;
+    right: -8px;
+    top: 0;
+}
+
+/* 🔹 Resize sırasında transition'ı kaldır */
+:host ::ng-deep .p-dialog.p-dialog-resizing {
+    transition: none !important;
+}
+
+/* 🔹 Resize sırasında user-select'i kapat */
+:host ::ng-deep .p-dialog-resizing * {
+    user-select: none !important;
+}
+
+/* 🔹 Dialog hover durumunda border vurgusu */
+:host ::ng-deep .p-dialog:hover {
+    border-color: #2b7acf;
+    box-shadow: 0 5px 20px rgba(43, 122, 207, 0.3);
+}
+
+/* 🔹 Resize cursor'ları için global stil */
+:host ::ng-deep .p-dialog-mask {
+    pointer-events: none;
+}
+
+:host ::ng-deep .p-dialog-mask .p-dialog {
+    pointer-events: all;
 }
 
 /* 🔹 Dialog İçerik Kısmı */
 :host ::ng-deep .p-dialog .p-dialog-content {
     border-bottom-left-radius: 12px;
+    /* Oval kenarlar */
     border-bottom-right-radius: 12px;
-    /* Dialog içeriğine özel ek padding/margin buradan ayarlanabilir */
     display: flex;
-   flex-direction: column;
+    flex-direction: column;
     height: 100%;
-   // padding: 0; /* Padding varsa boşluk bırakabilir */
+    padding: 0;
+    overflow: hidden;
 }
 
 /* 🔹 Dialog Başlık Çubuğu (Header) */
 :host ::ng-deep .p-dialog .p-dialog-header {
-    padding: 0.4rem 0.8rem;
-    min-height: 2rem;
-    background-color: #3c4962;
-    color: #f8fafc;
+    padding: 0.4rem 0.6rem;
+    min-height: 2.2rem;
+    background: linear-gradient(135deg, #2b577e 0%, #1f4563 100%);
+    /* Gradient arka plan */
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-top-left-radius: 12px;
+    /* Oval kenarlar */
     border-top-right-radius: 12px;
+    border-bottom: 2px solid #1f3a52;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 🔹 Başlık İkonları (Minimize, Maximize, Close) */
-:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.dialog-title {
+    font-weight: 700;
     font-size: 1rem;
-    color: #f8fafc;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    /* Hafif gölge */
+    letter-spacing: 0.3px;
 }
 
-/* 🔹 İkonlar (Kapatma hariç) Hover Durumu */
-:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:not(.close-btn):hover {
-    background-color: #00aaff !important;
+.window-controls {
+    display: flex;
+    gap: 0.3rem;
+    /* Biraz daha geniş */
 }
 
-/* 🔹 Kapatma İkonu Hover Durumu */
-:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon.close-btn:hover {
-    background-color: #ff4d4d !important;
-}
-
-/* 🔹 Minimize İkonlarının Rengi */
-:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-minus,
-:host ::ng-deep .p-dialog .p-dialog-header .minimize-btn span.pi-clone {
+/* 🔹 Başlık İkonları - Daha Büyük ve Premium */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.9rem;
     color: #ffffff;
-}
-
-/* 🔹 Tam Ekran Dialog Sınıfı */
-.fullscreen-dialog {
-    width: 100% !important;
-    height: 100% !important;
-    top: 0 !important;
-    left: 0 !important;
-    margin: 0 !important;
-    max-width: 100% !important;
-}
-
-
-/* ========================================================= */
-/* 🔹 Filtre Bar                                              */
-/* ========================================================= */
-:host ::ng-deep .filter-bar {
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
     display: flex;
     align-items: center;
-    background-color: #e6f2ff;
-    width: calc(100% + 3rem); /* dialog paddingini kapatmak için */
-    margin: 0 -1.5rem; /* dialog padding kadar negatif margin */
-    padding: 0.25rem 0;
-    box-sizing: border-box;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-:host ::ng-deep .filter-item {
+/* 🔹 Buton Glow Efekti (Hover Öncesi) */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+/* 🔹 Minimize & Fullscreen Hover - Mavi Glow */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:not(.close-btn):hover {
+    background: linear-gradient(135deg, #3b9eff 0%, #0066cc 100%) !important;
+    border-color: #5cb3ff !important;
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 15px rgba(59, 158, 255, 0.6), 0 0 30px rgba(59, 158, 255, 0.3);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:not(.close-btn):hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* 🔹 Kapatma İkonu Hover - Kırmızı Glow */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon.close-btn:hover {
+    background: linear-gradient(135deg, #ff4757 0%, #e81123 100%) !important;
+    border-color: #ff6b7a !important;
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 0 15px rgba(232, 17, 35, 0.6), 0 0 30px rgba(232, 17, 35, 0.3);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon.close-btn:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* 🔹 Buton Active (Tıklama) Efekti */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+/* ========================================================= */
+/* 🔹 Filtre ve Toolbar Alanı (Yeni)                          */
+/* ========================================================= */
+.filter-and-toolbar-container {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    margin-left: 1rem;
+    justify-content: space-between;
+    background-color: #f0f3f8;
+    /* Açık gri/mavi zemin */
+    padding: 0.2rem 0.5rem;
+    border-bottom: 1px solid #dcdcdc;
+    /* Dialog padding olmadığı için ekstra işlem gerekmez */
 }
 
-:host ::ng-deep .filter-item:first-child {
-    margin-left: 0.5rem;
-}
-
-:host ::ng-deep .filter-item label {
-    font-size: 0.75rem;
-    white-space: nowrap;
-    margin: 0;
-    font-weight: 500;
-}
-
-/* ========================================================= */
-/* 🔹 Filtre Butonları                                       */
-/* ========================================================= */
-:host ::ng-deep .filter-buttons {
+/* Sol Taraf: Dropdownlar */
+.filter-bar-left {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-left: auto;
 }
 
-:host ::ng-deep .filter-buttons button {
-    background: none;
+.filter-item {
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    font-size: 0.8rem;
+    color: #bfa1ce;
+    /* Resimdeki lila rengi label */
+    margin-right: 0.2rem;
+    font-weight: 500;
+}
+
+/* Flat Dropdown - Çerçevesiz gibi görünen */
+:host ::ng-deep .flat-dropdown .p-dropdown {
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    height: 24px;
+    align-items: center;
+}
+
+:host ::ng-deep .flat-dropdown .p-dropdown:hover {
+    border-color: #a0a0a0;
+}
+
+:host ::ng-deep .flat-dropdown .p-dropdown-label {
+    padding: 0 0.4rem;
+    font-size: 0.8rem;
+    line-height: 22px;
+    /* border dahil 24px */
+    color: #333;
+}
+
+:host ::ng-deep .flat-dropdown .p-dropdown-trigger {
+    width: 1.5rem;
+}
+
+/* Sağ Taraf: Toolbar Butonları */
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.tool-btn {
+    background: transparent;
     border: none;
+    padding: 0.2rem;
     cursor: pointer;
-    padding: 0.25rem;
-    transition: 0.2s ease;
+    color: #666;
+    /* Gri ikonlar */
+    border-radius: 2px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
-:host ::ng-deep .filter-buttons button:hover {
-    background-color: #d0e6ff;
-    border-radius: 4px;
+.tool-btn:hover {
+    background-color: #e0e0e0;
+    color: #333;
 }
 
-:host ::ng-deep .filter-buttons .pi {
+.tool-btn .pi {
     font-size: 1rem;
-    color: #0f0d0d;
+    color: #8da1b3;
+    /* Resimdeki soluk mavi/gri ikon rengi */
 }
+
+.tool-btn:hover .pi {
+    color: #2b577e;
+}
+
 
 /* ========================================================= */
 /* 🔹 Tablo Konteyneri                                       */
 /* ========================================================= */
 :host ::ng-deep .dialog-table-container {
-    width: calc(100% + 3rem);
-    margin: 0px -1.5rem;
-    padding: 0;
-    box-sizing: border-box;
-    // height: calc(100% - 35px); /* header + filtre bar + footer arası */
-    flex: 1 1 auto; /* Dialog içindeki alanı doldur */
-    // overflow: hidden !important; /* sadece tabloya scroll */
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    background-color: #fff;
+    min-height: 0;
+    /* Flex shrink için önemli */
 }
 
 :host ::ng-deep .dialog-table-container .p-datatable-wrapper {
     flex: 1 1 auto;
-    overflow-y: auto !important; /* scrollbar burada */
-    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    /* Yatay scroll da ekle */
     max-height: 100%;
+    min-height: 0;
+    /* Flex shrink için önemli */
+}
+
+/* 🔹 Custom Scrollbar Stilleri */
+:host ::ng-deep .dialog-table-container .p-datatable-wrapper::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+:host ::ng-deep .dialog-table-container .p-datatable-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+:host ::ng-deep .dialog-table-container .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+:host ::ng-deep .dialog-table-container .p-datatable-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 :host ::ng-deep .fixed-paginator-table.p-datatable-scrollable {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+    /* Flex shrink için önemli */
 }
 
 :host ::ng-deep .fixed-paginator-table .p-datatable-scrollable-wrapper {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    min-height: 0;
+    /* Flex shrink için önemli */
 }
 
 /* Scrollable body flex ile yüksekliği dolduruyor */
 :host ::ng-deep .fixed-paginator-table .p-datatable-scrollable-body {
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    min-height: 0;
+    /* Flex shrink için önemli */
 }
 
 /* Paginator table footer içinde hep sabit */
@@ -172,6 +382,31 @@
     flex-shrink: 0;
     position: relative;
 }
+
+/* 🔹 Tablo Header Sticky (Scroll yaparken sabit kalır) */
+:host ::ng-deep .p-datatable-scrollable .p-datatable-thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* 🔹 Scrollable Header */
+:host ::ng-deep .p-datatable-scrollable-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f8f9fa;
+}
+
+/* 🔹 Scrollbar düzgün görünsün */
+:host ::ng-deep .p-datatable-scrollable-body {
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
 /*
 :host ::ng-deep .my-scroll-table.p-datatable-scrollable,
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-wrapper {
@@ -180,27 +415,32 @@
     flex-direction: column !important;
 }
 */
-/* Header: sticky (sabit) *//*
+/* Header: sticky (sabit) */
+/*
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-header,
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-header-box,
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-header-table {
     position: sticky !important;
     top: 0 !important;
     z-index: 20 !important;
-    background: #f8f9fa !important; /* arkaplan koyun ki altından sayfa görünmesin *//*
+    background: #f8f9fa !important; /* arkaplan koyun ki altından sayfa görünmesin */
+/*
     box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
 
-/* Body: kalan alanı kaplasın ve scroll yapsın *//*
+/* Body: kalan alanı kaplasın ve scroll yapsın */
+/*
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-body {
     flex: 1 1 auto !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    max-height: calc(200vh - 500px); /* Scroll yüksekliği *//*
+    max-height: calc(200vh - 500px); /* Scroll yüksekliği */
+/*
 }
 
-/* Eğer header hücreleri kayıyorsa genişlikler bozuluyorsa: *//*
+/* Eğer header hücreleri kayıyorsa genişlikler bozuluyorsa: */
+/*
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-header-table,
 :host ::ng-deep .my-scroll-table .p-datatable-scrollable-body table {
     table-layout: fixed !important;
@@ -233,7 +473,8 @@
 
 /* Table scrollable wrapper: body scrollable, header sabit */
 :host ::ng-deep .table-scrollable-wrapper {
-    flex: 1 1 auto; /* kalan alanı doldur */
+    flex: 1 1 auto;
+    /* kalan alanı doldur */
     overflow: hidden;
 }
 
@@ -248,13 +489,15 @@
 :host ::ng-deep .table-paginator-wrapper {
     flex-shrink: 0;
     padding-top: 0.5rem;
-    background-color: #e6f2ff; /* istersen burayı dialog footer ile eşleştir */
+    background-color: #e6f2ff;
+    /* istersen burayı dialog footer ile eşleştir */
 }
 
 /* Header gövdeyle hizalı dursun */
 :host ::ng-deep .p-datatable-scrollable-header-box {
     margin-right: 0 !important;
 }
+
 /*
 :host ::ng-deep .my-scroll-table .p-paginator {
     position: sticky !important;
@@ -268,7 +511,8 @@
 
 /* 🔹 Küçük Tablo Ana Yapısı (.p-datatable-sm) */
 :host ::ng-deep .p-datatable-sm {
-    border: 1px solid #ccc; /* Dış çerçeve */
+    border: 1px solid #ccc;
+    /* Dış çerçeve */
     border-radius: 6px;
     border-collapse: collapse;
     margin: 0 !important;
@@ -276,33 +520,74 @@
 }
 
 /* 🔹 Tablo Başlık Hücreleri (TH) */
-:host ::ng-deep .p-datatable-sm .p-datatable-thead > tr > th {
-    border-right: 1px solid #d9d9d9; /* Sütunlar arası çizgi */
-    border-bottom: 2px solid #b0b0b0; /* Altına daha belirgin çizgi */
-    background-color: #f8f9fa; /* Arka plan hafif gri*/
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th {
+    border-right: 1px solid #d9d9d9;
+    /* Sütunlar arası çizgi */
+    border-bottom: 2px solid #b0b0b0;
+    /* Altına daha belirgin çizgi */
+    background-color: #f8f9fa;
+    /* Arka plan hafif gri*/
     font-weight: 600;
     text-align: center !important;
     vertical-align: middle !important;
-    white-space: nowrap; /* Alt alta taşmayı önler */
+    white-space: nowrap;
+    /* Alt alta taşmayı önler */
     font-size: 0.85rem !important;
     padding: 0.8rem 0.5rem !important;
-    line-height: 0.6rem !important; /* Satır yüksekliği ayarı */
+    line-height: 0.6rem !important;
+    /* Satır yüksekliği ayarı */
     color: #0f0d0d !important;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    position: relative;
+    /* Resize handle için */
+}
+
+/* 🔹 Sütun Resize Handle */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th .p-column-resizer {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: 0.5rem;
+    height: 100%;
+    padding: 0;
+    cursor: col-resize;
+    border-right: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+/* 🔹 Resize Handle Hover */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th .p-column-resizer:hover {
+    border-right-color: #2b7acf;
+}
+
+/* 🔹 Resize sırasında görsel feedback */
+:host ::ng-deep .p-datatable-sm.p-datatable-resizable>.p-datatable-wrapper>table>thead>tr>th.p-resizable-column {
+    cursor: col-resize;
+}
+
+/* 🔹 Resize helper line (sürükleme sırasında görünen çizgi) */
+:host ::ng-deep .p-column-resizer-helper {
+    width: 2px;
+    background-color: #2b7acf;
+    z-index: 100;
 }
 
 /* 🔹 Başlıkta Son Sütunun Sağ Çizgisini Kaldırma */
-:host ::ng-deep .p-datatable-sm .p-datatable-thead > tr > th:last-child {
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th:last-child {
     border-right: none;
 }
 
 /* 🔹 Tablo Veri Hücreleri (TD) Ortak Ayarları */
-:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr > td {
-    border: none !important; /* Hücrelere ayrıca çizgi vermez */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr>td {
+    border: none !important;
+    /* Hücrelere ayrıca çizgi vermez */
     text-align: center !important;
     vertical-align: middle !important;
-    white-space: nowrap; /* Alt alta taşmayı önler */
+    white-space: nowrap;
+    /* Alt alta taşmayı önler */
     font-size: 0.85rem !important;
     padding: 0.8rem 0.5rem !important;
     line-height: 0.6rem !important;
@@ -311,21 +596,88 @@
 }
 
 /* 🔹 Tek Sayılı Satır Arka Planı */
-:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:nth-child(odd) {
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr:nth-child(odd) {
     background-color: #ffffff !important;
 }
 
 /* 🔹 Çift Sayılı Satır Arka Planı (Zebra Etkisi) */
-:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:nth-child(even) {
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr:nth-child(even) {
     background-color: #eff2f6 !important;
 }
 
-/* 🔹 Satır ve Başlık Hover Durumu */
-:host ::ng-deep .p-datatable-sm .p-datatable-tbody > tr:hover,
-:host ::ng-deep .p-datatable-sm .p-datatable-thead > tr > th:hover {
+/* 🔹 Satır Hover Durumu (Geçici) */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr:hover {
     background-color: #e6f2ff !important;
-    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge */
-    transition: all 0.2s ease; /* Smooth geçiş */
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    /* Mouse pointer */
+}
+
+/* 🔹 Başlık Hover Durumu */
+:host ::ng-deep .p-datatable-sm .p-datatable-thead>tr>th:hover {
+    background-color: #e6f2ff !important;
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+/* 🔹 Seçilen Satır (Kalıcı - Koyu Mavi) - ZEBRA OVERRIDE */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(odd),
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(even) {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 3px 10px rgba(37, 99, 235, 0.5),
+        inset 4px 0 0 #1d4ed8 !important;
+    border-left: 4px solid #1d4ed8 !important;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+/* 🔹 Seçilen Satır - Parlama Efekti */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0) 50%);
+    pointer-events: none;
+}
+
+/* 🔹 Seçilen Satırdaki Hücre Yazıları Beyaz */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight>td,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(odd)>td,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(even)>td {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    background: transparent !important;
+}
+
+/* 🔹 Seçilen Satırdaki İkonlar Beyaz */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight>td .pi,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight>td i {
+    color: #ffffff !important;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* 🔹 Seçilen Satır Hover (Daha da Koyu ve Belirgin) */
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:hover,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(odd):hover,
+:host ::ng-deep .p-datatable-sm .p-datatable-tbody>tr.p-highlight:nth-child(even):hover {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 5px 15px rgba(37, 99, 235, 0.7),
+        inset 5px 0 0 #60a5fa !important;
+    transform: translateX(3px);
+    border-left-color: #60a5fa !important;
 }
 
 /* ======================================================================== */
@@ -339,7 +691,8 @@
     font-size: 0.85rem !important;
     display: flex;
     align-items: center;
-    height: 24px; /* Dropdown bileşeniyle uyumlu yükseklik */
+    height: 24px;
+    /* Dropdown bileşeniyle uyumlu yükseklik */
     line-height: 24px;
     margin: 0;
 }
@@ -378,22 +731,46 @@
 /* DIALOG FOOTER                              */
 /* ======================================================================== */
 
+/* 🔹 Dialog Footer Container - Padding'siz */
+:host ::ng-deep .p-dialog .p-dialog-footer {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    overflow: hidden;
+    /* Border-radius'un çalışması için */
+}
+
 /* 🔹 Dialog Alt Sabit Bar (Footer) */
 :host ::ng-deep .dialog-bottom-bar {
-    position: relative; /* Dialogun içine sabitle */
-    bottom: 0; /* En alta yapıştır */
-    left: 0;
-    right: 0;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* İçeriği sağa yasla (Paginator'ı kapsadığı varsayılır) */
-    background-color: #e6f2ff;
-    border-top: 1px solid #ccc;
+    justify-content: space-between;
+    /* Sol ve sağa yasla */
+    background-color: #f0f3f8;
+    border-top: 1px solid #dcdcdc;
+    border-bottom-left-radius: 12px;
+    /* Oval kenarlar */
+    border-bottom-right-radius: 12px;
     width: 100%;
-    height: 25px; /* Yükseklik */
+    height: 30px;
     box-sizing: border-box;
+    padding: 0 0.8rem;
+    /* Sadece iç içerik için padding */
+    margin: 0;
+    /* Dış boşluk yok */
     z-index: 10;
-    padding-left: 0.5rem;
+}
+
+/* 🔹 Footer Info (Sol taraf) */
+.footer-info {
+    font-size: 0.75rem;
+    color: #1a0dab;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
 /* ======================================================================== */
@@ -408,20 +785,24 @@
     border: none !important;
     /* Dropdown solda, nav sağda olması için: */
     justify-content: space-between;
-    width: 100%; /* Bar içinde tam genişlik kullan */
+    width: 100%;
+    /* Bar içinde tam genişlik kullan */
 }
 
 /* 🔹 Sayfa Başına Kayıt (RPP) Dropdown Konumu */
 :host ::ng-deep .p-paginator .p-paginator-rpp {
-    order: 0; /* Önce gelsin (solda) */
-    margin-right: 0.3rem; /* Dropdown ile nav arası mesafe */
+    order: 0;
+    /* Önce gelsin (solda) */
+    margin-right: 0.3rem;
+    /* Dropdown ile nav arası mesafe */
 }
 
 /* 🔹 RPP Dropdown Bileşeni Boyutları */
 :host ::ng-deep .p-paginator .p-dropdown {
     height: 20px !important;
     min-width: 30px !important;
-    font-size: 0.5rem !important; /* Temel font boyutu küçültüldü */
+    font-size: 0.5rem !important;
+    /* Temel font boyutu küçültüldü */
 }
 
 /* 🔹 RPP Dropdown Label */
@@ -442,7 +823,8 @@
     width: 1.5rem;
     height: 1.5rem;
     margin: 0 0.1rem;
-    line-height: 1.5rem; /* Dikey ortalama için */
+    line-height: 1.5rem;
+    /* Dikey ortalama için */
     font-size: 0.75rem;
     border-radius: 4px;
 }
@@ -463,7 +845,8 @@
 :host ::ng-deep .p-paginator .p-paginator-next,
 //:host ::ng-deep .p-paginator .p-paginator-first,
 :host ::ng-deep .p-paginator .p-paginator-last {
-    order: 3; /* Dropdown'dan sonra gelsin (sağda) */
+    order: 3;
+    /* Dropdown'dan sonra gelsin (sağda) */
     width: 1.4rem;
     height: 1.4rem;
     line-height: 1.4rem;
@@ -474,7 +857,8 @@
 
 :host ::ng-deep .p-paginator .p-paginator-first,
 :host ::ng-deep .p-paginator .p-paginator-prev {
-    order: 1; /* Dropdown'dan sonra gelsin (sağda) */
+    order: 1;
+    /* Dropdown'dan sonra gelsin (sağda) */
     width: 1.4rem;
     height: 1.4rem;
     line-height: 1.4rem;
@@ -484,9 +868,11 @@
 }
 
 :host ::ng-deep .p-paginator .p-paginator-pages {
-    order: 2; /* Dropdown'dan sonra gelsin (sağda) */
+    order: 2;
+    /* Dropdown'dan sonra gelsin (sağda) */
     margin: 0 0.5rem !important;
 }
+
 /* 🔹 Navigasyon İkonları Hover Durumu */
 :host ::ng-deep .p-paginator .p-paginator-prev:hover,
 :host ::ng-deep .p-paginator .p-paginator-next:hover,
@@ -499,19 +885,30 @@
 
 /* Tüm sayfa numaralarını gizle */
 :host ::ng-deep .p-paginator .p-paginator-page {
-    display: none; /* Tüm sayfa numaralarını gizler */
+    display: none;
+    /* Tüm sayfa numaralarını gizler */
 }
 
 /* Sadece aktif sayfa (highlight) göster */
 :host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
-    display: inline-flex; /* Aktif sayfa kutusunu gösterir ve flex yapar */
-    justify-content: center; /* İçindeki sayıyı yatay ortalar */
-    align-items: center; /* İçindeki sayıyı dikey ortalar */
-    width: 1.5rem; /* Kutunun genişliği 1.5rem */
-    height: 1.5rem; /* Kutunun yüksekliği 1.5rem */
-    line-height: 1.5rem; /* Satır yüksekliği kutu yüksekliği ile eşit */
-    font-size: 0.75rem; /* Yazı boyutu 0.75rem */
-    border-radius: 4px; /* Köşeleri hafif yuvarlatır */
-    background-color: #2b7acf; /* Arka planı mavi yapar */
-    color: #ffffff; /* Yazı rengini beyaz yapar */
+    display: inline-flex;
+    /* Aktif sayfa kutusunu gösterir ve flex yapar */
+    justify-content: center;
+    /* İçindeki sayıyı yatay ortalar */
+    align-items: center;
+    /* İçindeki sayıyı dikey ortalar */
+    width: 1.5rem;
+    /* Kutunun genişliği 1.5rem */
+    height: 1.5rem;
+    /* Kutunun yüksekliği 1.5rem */
+    line-height: 1.5rem;
+    /* Satır yüksekliği kutu yüksekliği ile eşit */
+    font-size: 0.75rem;
+    /* Yazı boyutu 0.75rem */
+    border-radius: 4px;
+    /* Köşeleri hafif yuvarlatır */
+    background-color: #2b7acf;
+    /* Arka planı mavi yapar */
+    color: #ffffff;
+    /* Yazı rengini beyaz yapar */
 }

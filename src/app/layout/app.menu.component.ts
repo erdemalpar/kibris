@@ -123,11 +123,11 @@ export class AppMenuComponent implements OnInit {
                                         icon: 'pi pi-fw pi-folder',
                                         command: () => this.menuService.openDialog('FenKlasor')
                                     },
-                                    /*  {
-                                          label: 'İş Yönetimi',
-                                          icon: 'pi pi-fw pi-briefcase',
-                                          routerLink: ['/operator/isYonetimi'],
-                                      }*/
+                                    {
+                                        label: 'Özel Alanlar',
+                                        icon: 'pi pi-fw pi-briefcase',
+                                        command: () => this.menuService.openDialog('OzelAlanlar')
+                                    }
                                 ],
                             },
                             {

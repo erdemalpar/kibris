@@ -39,8 +39,8 @@
 :host ::ng-deep .p-dialog .p-dialog-header {
     padding: 0.4rem 0.8rem; // Başlık iç boşlukları
     min-height: 2rem; // Minimum yükseklik
-    background-color: #3c4962; // Arka plan rengi (Koyu gri-mavi)
-    color: #f8fafc; // Yazı rengi (Kırık beyaz)
+    background-color: #40465D; // ŞEFFAF ARKA PLAN
+    color: white; // BEYAZ YAZI
     display: flex; // Flexbox
     align-items: center; // Dikey ortalama
     justify-content: space-between; // Başlık ve ikonları iki uca yasla
@@ -111,7 +111,7 @@ $text-muted: #777; // Pasif/Silik metin rengi (Gri)
 ::ng-deep p-dialog {
     .p-dialog-header {
         padding: 0; // Özel header kullandığımız için varsayılan padding'i sıfırla
-        background: $header-bg; // Değişkendeki koyu maviyi kullan
+        background: transparent; // Değişkendeki koyu maviyi kullanma, transparan yap
         color: white; // Yazı rengi beyaz
         height: 40px; // Header yüksekliği sabitle
     }
@@ -134,8 +134,8 @@ $text-muted: #777; // Pasif/Silik metin rengi (Gri)
     width: 100%;
     height: 100%;
     padding: 0 10px; // Sağdan soldan biraz boşluk
-    background-color: $header-bg; // Koyu mavi arka plan
-    color: white;
+    background-color: transparent; // Koyu mavi arka plan yerine transparan
+    color: white; // Beyaz yazı
     font-size: 14px;
     font-weight: bold; // Kalın yazı tipi
 
@@ -156,12 +156,12 @@ $text-muted: #777; // Pasif/Silik metin rengi (Gri)
 
             i {
                 font-size: 14px;
-                color: rgba(255, 255, 255, 0.8); // Hafif soft beyaz
+                color: rgba(255, 255, 255, 0.9); // Beyaz ikon
             }
 
             // Normal buton hover (Minimize / Maximize)
             &:hover {
-                background-color: rgba(255, 255, 255, 0.15);
+                background-color: rgba(255, 255, 255, 0.15); // Yarı saydam beyaz
                 transform: scale(1.1); // Hafif büyüme efekti
 
                 i {
@@ -473,48 +473,210 @@ $text-muted: #777; // Pasif/Silik metin rengi (Gri)
 /* -------------------------------------------------------------------------- */
 /* HARİTA ALTLIK SEÇİM MENÜSÜ (Gelişmiş Görünüm) */
 /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* HARİTA ALTLIK SEÇİM MENÜSÜ (Gelişmiş Görünüm - Custom Radio) */
+/* -------------------------------------------------------------------------- */
 ::ng-deep .map-layer-overlay {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 
-    // Panel Arka Planı
+    // Panel İçeriğini sıfırla, kendi stilimizi kullanacağız
     .p-overlaypanel-content {
-        padding: 5px !important;
-        background: rgba(255, 255, 255, 0.98); // Neredeyse opak beyaz
-        border-radius: 8px;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
     }
 
-    // Seçenek Satırı
-    .layer-option-item {
+    .radio-group-container {
+        //background-color: rgb(45 95 139 / 82%); // Bizim temanın mavisi, hafif saydam
+        background-color: #2c4a6be6;
+        padding: 15px 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        width: 240px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .radio-label {
         display: flex;
         align-items: center;
-        padding: 5px 8px; // Daha kompakt padding
-        border-radius: 6px;
+        margin: 12px 0; // Boşluğu biraz kıstım
         cursor: pointer;
-        transition: all 0.2s ease-in-out;
-        border: 1px solid transparent;
+        position: relative;
+        user-select: none;
 
-        label {
-            margin-left: 6px; // Yazı ile buton arasını daralt
-            cursor: pointer;
-            font-size: 10px; // Yazıyı belirgin şekilde küçült
-            color: #495057;
-            font-weight: 500;
+        &:first-child {
+            margin-top: 0;
         }
 
-        // Radio Buton ince ayarı
-        .custom-radio {
-            pointer-events: none;
-            transform: scale(0.6); // Radio butonu %40 civarı küçült
+        &:last-child {
+            margin-bottom: 0;
         }
 
-        // HOVER DURUMU
         &:hover {
-            background-color: #f1f8fe;
-            border-color: #cce3f8;
-            transform: translateX(3px);
+            .radio-text {
+                color: #ffffff;
+            }
 
-            label {
-                color: #2d5f8b;
+            .radio-custom {
+                transform: scale(1.1);
+                border-color: #a0c4ff;
             }
         }
+    }
+
+    .radio-input {
+        display: none;
+    }
+
+    .radio-custom {
+        width: 18px; // İsteğe göre %40 küçültüldü (22 -> ~16-18)
+        height: 18px;
+        background-color: transparent;
+        border: 2px solid #8faac7; // Pasif renk
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #8a8b9f;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+        }
+    }
+
+    .radio-text {
+        font-size: 0.9rem; // Biraz küçülttük
+        font-weight: 500;
+        color: #dbe4f0; // Açık mavi-gri
+        transition: color 0.3s ease;
+    }
+
+    // CHECKED START
+    .radio-input:checked+.radio-custom {
+        transform: scale(0.9);
+
+        &::before {
+            transform: scale(1);
+        }
+
+        &::after {
+            opacity: 1;
+            transform: scale(1.3);
+            animation: orbit 2.5s infinite linear;
+        }
+    }
+
+    .radio-input:checked~.radio-text {
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    // --- RENKLER (Nth-child variations) ---
+
+    // 1. Google Sat (Mavi - Default)
+    .radio-label:nth-child(1) .radio-input:checked+.radio-custom {
+        border-color: #00a6ff;
+
+        &::before {
+            background-color: #00a6ff;
+        }
+
+        &::after {
+            border-top-color: #00a6ff;
+            box-shadow: 0 0 20px #00a6ff, 0 0 50px rgba(0, 166, 255, 0.2);
+        }
+    }
+
+    // 2. Google Map (Magenta)
+    .radio-label:nth-child(2) .radio-input:checked+.radio-custom {
+        border-color: #e900ff;
+
+        &::before {
+            background-color: #e900ff;
+        }
+
+        &::after {
+            border-top-color: #e900ff;
+            box-shadow: 0 0 20px #e900ff, 0 0 50px rgba(233, 0, 255, 0.2);
+        }
+    }
+
+    // 3. OSM (Yeşil/Lime)
+    .radio-label:nth-child(3) .radio-input:checked+.radio-custom {
+        border-color: #00ffc2;
+
+        &::before {
+            background-color: #00ffc2;
+        }
+
+        &::after {
+            border-top-color: #00ffc2;
+            box-shadow: 0 0 20px #00ffc2, 0 0 50px rgba(0, 255, 194, 0.2);
+        }
+    }
+
+    // 4. HGM (Turuncu/Altın)
+    .radio-label:nth-child(4) .radio-input:checked+.radio-custom {
+        border-color: #ffaa00;
+
+        &::before {
+            background-color: #ffaa00;
+        }
+
+        &::after {
+            border-top-color: #ffaa00;
+            box-shadow: 0 0 20px #ffaa00, 0 0 50px rgba(255, 170, 0, 0.2);
+        }
+    }
+
+    // 5. Kıbrıs (Kırmızı/Mercan)
+    .radio-label:nth-child(5) .radio-input:checked+.radio-custom {
+        border-color: #ff4d4d;
+
+        &::before {
+            background-color: #ff4d4d;
+        }
+
+        &::after {
+            border-top-color: #ff4d4d;
+            box-shadow: 0 0 20px #ff4d4d, 0 0 50px rgba(255, 77, 77, 0.2);
+        }
+    }
+}
+
+@keyframes orbit {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }

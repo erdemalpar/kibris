@@ -1,123 +1,124 @@
-<!--<p-dialog #dialog
-          [visible]="visible"
-          [modal]="false"
-          [closable]="false"
-          [style]="dialogStyle"
-          [styleClass]="fullscreen ? 'dialog-fullscreen' : ''"
-          [ngClass]="dialogClass"
-          (onHide)="closeDialog()"
-          [draggable]="true">-->
+<p-dialog #dialog [visible]="visible" [modal]="false" [closable]="false" [style]="dialogStyle"
+    [styleClass]="fullscreen ? 'dialog-fullscreen' : ''" [ngClass]="dialogClass" (onHide)="closeDialog()"
+    [draggable]="true" [resizable]="true">
 
     <!-- Özel Header -->
-    <!--<ng-template pTemplate="header">
-        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <span>Başvuru İşlemleri</span>
-            <div style="display: flex; gap: 0rem;">-->
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <span class="dialog-title">{{ name }}</span>
+            <div class="window-controls">
                 <!-- Minimize Butonu -->
-                <!--<button type="button"
-                        class="p-dialog-header-icon p-link minimize-btn"
-                        (click)="toggleMinimize()"
-                        pTooltip="{{ minimized ? 'Genişlet' : 'Küçült' }}"
-                        tooltipPosition="top">
+                <button type="button" class="p-dialog-header-icon p-link minimize-btn" (click)="toggleMinimize()"
+                    pTooltip="{{ minimized ? 'Genişlet' : 'Küçült' }}" tooltipPosition="top">
                     <span [class]="'pi ' + (minimized ? 'pi-clone' : 'pi-minus')"></span>
-                </button>-->
+                </button>
                 <!-- Fullscreen -->
-                <!--<button type="button"
-                        class="p-dialog-header-icon p-link fullscreen-btn"
-                        (click)="toggleFullscreen()"
-                        pTooltip="{{ fullscreen ? 'Önceki Ekrana Dön' : 'Tam Ekran' }}"
-                        tooltipPosition="top">
+                <button type="button" class="p-dialog-header-icon p-link fullscreen-btn" (click)="toggleFullscreen()"
+                    pTooltip="{{ fullscreen ? 'Önceki Ekrana Dön' : 'Tam Ekran' }}" tooltipPosition="top">
                     <span [class]="'pi ' + (fullscreen ? 'pi-clone' : 'pi-external-link')"></span>
                 </button>
 
-                <button type="button"
-                        class="p-dialog-header-icon p-link close-btn"
-                        (click)="closeDialog()">
+                <button type="button" class="p-dialog-header-icon p-link close-btn" (click)="closeDialog()">
                     <span class="pi pi-times"></span>
                 </button>
             </div>
         </div>
-    </ng-template>-->
+    </ng-template>
 
-    <!-- Header altındaki filtre alanı -->
-    <!--<div *ngIf="!minimized"
-         class="filter-bar">-->
-        <!-- üst-alt boşluk -->
-        <!-- İlçe -->
-        <!--<div class="filter-item">
-            <label>İlçe:</label>
-            <p-dropdown [options]="ilceList" [(ngModel)]="selectedIlce" optionLabel="name"
-                        placeholder="Seçiniz" class="small-dropdown" (onChange)="ilceChanged($event)"
-                        [style]="{'margin': '0', 'height': '24px'}"></p-dropdown>
-        </div>-->
+    <!-- Header altındaki filtre ve toolbar alanı -->
+    <div *ngIf="!minimized" class="filter-and-toolbar-container">
+        <!-- Sol taraf: Filtreler -->
+        <div class="filter-bar-left">
+            <!-- İl -->
+            <div class="filter-item">
+                <span class="filter-label">İl</span>
+                <p-dropdown [options]="ilList" [(ngModel)]="selectedIl" optionLabel="name" placeholder="Adana"
+                    class="flat-dropdown" [style]="{'width': '100px'}"></p-dropdown>
+            </div>
 
-        <!-- Kriter -->
-        <!--<div class="filter-item">
-            <label>Kriter:</label>
-            <p-dropdown [options]="kriterler" [(ngModel)]="selectedKriter"
-                        placeholder="Seçiniz" class="small-dropdown"></p-dropdown>
+            <!-- İlçe -->
+            <div class="filter-item">
+                <span class="filter-label">İlçe</span>
+                <p-dropdown [options]="ilceList" [(ngModel)]="selectedIlce" optionLabel="name" placeholder="Aladağ"
+                    class="flat-dropdown" (onChange)="ilceChanged($event)" [style]="{'width': '120px'}"></p-dropdown>
+            </div>
+
+            <!-- Kriter -->
+            <div class="filter-item">
+                <span class="filter-label">Kriter</span>
+                <p-dropdown [options]="kriterler" [(ngModel)]="selectedKriter" placeholder="Seçiniz"
+                    class="flat-dropdown" [style]="{'width': '120px'}"></p-dropdown>
+            </div>
         </div>
-        <div class="filter-buttons">-->
-            <!-- Yeni Başvuru -->
-            <!--<button type="button"
-                    pTooltip="Yeni Başvuru" tooltipPosition="top">
-                <span class="pi pi-plus" style="font-size: 1rem;"></span>
-            </button>-->
 
-            <!-- Fen Klasörü -->
-            <!--<button type="button"
-                    pTooltip="Fen Klasörü" tooltipPosition="top">
-                <span class="pi pi-folder" style="font-size: 1rem;"></span>
-            </button>-->
-
-            <!-- Arama -->
-            <!--<button type="button"
-                    pTooltip="Ara" tooltipPosition="top">
-                <span class="pi pi-search" style="font-size: 1rem;"></span>
+        <!-- Sağ taraf: Toolbar Butonları -->
+        <div class="toolbar-right">
+            <button type="button" class="tool-btn" pTooltip="Yeni Kayıt" tooltipPosition="top">
+                <i class="pi pi-file"></i>
             </button>
+            <button type="button" class="tool-btn" pTooltip="Mobil" tooltipPosition="top">
+                <i class="pi pi-mobile"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Yazdır" tooltipPosition="top">
+                <i class="pi pi-print"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Yenile" tooltipPosition="top">
+                <i class="pi pi-refresh"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Ara" tooltipPosition="top">
+                <i class="pi pi-search"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Sil" tooltipPosition="top">
+                <i class="pi pi-trash"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Geri Al" tooltipPosition="top">
+                <i class="pi pi-undo"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Kopyala" tooltipPosition="top">
+                <i class="pi pi-copy"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Mesaj" tooltipPosition="top">
+                <i class="pi pi-comment"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Ayarlar" tooltipPosition="top">
+                <i class="pi pi-cog"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="İşlemler" tooltipPosition="top">
+                <i class="pi pi-list"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="Excel" tooltipPosition="top">
+                <i class="pi pi-file-excel"></i>
+            </button>
+            <button type="button" class="tool-btn" pTooltip="CSV" tooltipPosition="top">
+                <span style="font-weight:bold; font-size: 0.7rem;">CSV</span>
+            </button>
+
         </div>
-    </div>-->
-    <!-- Dialog İçeriği -->
-    <!--<div *ngIf="!minimized" class="dialog-table-container">
-        <p-table class="p-datatable-sm p-datatable-scrollable fixed-paginator-table"
-                 stripedRows
-                 [value]="basvurular"
-                 [responsive]="true"
-                 [resizableColumns]="true"
-                 columnResizeMode="fit"
-                 [paginator]="true"
-                 [rows]="25"
-                 [first]="first"
-                 [rowsPerPageOptions]="[25,50,100,200]"
-                 [paginatorPosition]="'bottom'"
-                 [showCurrentPageReport]="true"
-                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                 page="onPageChange($event)"
-                 [scrollable]="true"
-                 [scrollHeight]="'calc(100vh - 500px)'">
+    </div>
+
+
+    <!-- Dialog İçeriği: Tablo -->
+    <div *ngIf="!minimized" class="dialog-table-container">
+        <p-table class="p-datatable-sm p-datatable-scrollable fixed-paginator-table resizable-table" stripedRows
+            [value]="pagedBasvurular" [responsive]="true" [resizableColumns]="true" columnResizeMode="expand"
+            [scrollable]="true" scrollHeight="flex" [tableStyle]="{'min-width': '100%'}" selectionMode="single"
+            [(selection)]="selectedBasvuru" dataKey="basvuruNo">
             <ng-template pTemplate="header">
                 <tr>
-                    <th pResizableColumn pSortableColumn="basvuruNo">
-                        Başvuru
-                    </th>
-                    <th pResizableColumn pSortableColumn="fenKayit">
-                        Fen Kayıt
-                    </th>
-                    <th pResizableColumn pSortableColumn="basvuruTip">
-                        Başvuru Tip
-                    </th>
-                    <th pResizableColumn pSortableColumn="ilce">
-                        İlçe
-                    </th>
-                    <th pResizableColumn pSortableColumn="islem">
-                        İşlem
-                    </th>
-                    <th pResizableColumn pSortableColumn="zemin">
-                        Zemin
-                    </th>
-                    <th pResizableColumn pSortableColumn="durum">
-                        Durum
-                    </th>
+                    <th pResizableColumn [style]="{'min-width':'80px'}">Başvuru</th>
+                    <th pResizableColumn [style]="{'min-width':'80px'}">Fen Kayıt</th>
+                    <th pResizableColumn [style]="{'min-width':'90px'}">Başvuru Tip</th>
+                    <th pResizableColumn [style]="{'min-width':'80px'}">Baş İşler</th>
+                    <th pResizableColumn [style]="{'min-width':'70px'}">İlçe</th>
+                    <th pResizableColumn [style]="{'min-width':'50px'}">Zen</th>
+                    <th pResizableColumn [style]="{'min-width':'50px'}">Gör</th>
+                    <th pResizableColumn [style]="{'min-width':'50px'}">Gör</th>
+                    <th pResizableColumn [style]="{'min-width':'70px'}">Ödeme</th>
+                    <th pResizableColumn [style]="{'min-width':'70px'}">Durum</th>
+                    <th pResizableColumn [style]="{'min-width':'120px'}">Veri Onay Durum</th>
+                    <th pResizableColumn [style]="{'min-width':'100px'}">Tescil Durum</th>
+                    <th pResizableColumn [style]="{'min-width':'100px'}">Randevu Tarih</th>
+                    <th pResizableColumn [style]="{'min-width':'100px'}">Randevu Tarih</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-basvuru>
@@ -125,48 +126,33 @@
                     <td>{{ basvuru.basvuruNo }}</td>
                     <td>{{ basvuru.fenKayit }}</td>
                     <td>{{ basvuru.basvuruTip }}</td>
+                    <td>{{ basvuru.basIslem }}</td>
                     <td>{{ basvuru.ilce }}</td>
-                    <td>{{ basvuru.islem }}</td>
                     <td>{{ basvuru.zemin }}</td>
+                    <td><i class="pi pi-envelope" style="color:#d9534f"></i></td>
+                    <td><i class="pi pi-eye" style="color:#5bc0de"></i></td>
+                    <td>{{ basvuru.odeme }}</td>
                     <td>{{ basvuru.durum }}</td>
+                    <td>{{ basvuru.veriOnay }}</td>
+                    <td>{{ basvuru.tescilDurum }}</td>
+                    <td>{{ basvuru.randevuTarih }}</td>
+                    <td>{{ basvuru.randevuTarih2 }}</td>
                 </tr>
             </ng-template>
         </p-table>
-    </div>-->
+    </div>
+
     <!-- Footer -->
-    <!-- <ng-template pTemplate="footer">
-         <div class="dialog-bottom-bar">
-             <p-paginator [rows]="rows"
-                          [totalRecords]="basvurular.length || 0"
-                          [rowsPerPageOptions]="[25,50,100,200]"
-                          [dropdownAppendTo]="'body'"
-                          (page)="onPageChange($event)">
-             </p-paginator>
-         </div>
-     </ng-template>-->
-<!--</p-dialog>-->
-<p-dialog header="Basvuru"
-          [visible]="visible"
-          [modal]="true"
-          [closable]="false"
-          [style]="{ width: '500px' }"
-          (onHide)="closeDialog()">
+    <ng-template pTemplate="footer">
+        <div class="dialog-bottom-bar">
+            <div class="footer-info">
+                <span class="pi pi-chevron-right" style="font-size: 0.7rem; margin-right: 0.3rem;"></span>
+                Lütfen Kriter Seçiniz
+            </div>
 
-
-    <!-- Sade Header: Sadece kapatma -->
-    <ng-template pTemplate="header">
-        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <span>{{ name }}</span>
-            <button type="button"
-                    class="p-dialog-header-icon p-link close-btn"
-                    (click)="closeDialog()">
-                <span class="pi pi-times"></span>
-            </button>
+            <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[25,50,100,200]"
+                [dropdownAppendTo]="'body'" (onPageChange)="onPageChange($event)" [showCurrentPageReport]="false">
+            </p-paginator>
         </div>
     </ng-template>
-
-    <!-- Sade İçerik -->
-    <div style="padding: 20px; font-size: 16px; text-align:center;">
-        Bu modül üzerinde çalışma devam etmektedir.
-    </div>
 </p-dialog>

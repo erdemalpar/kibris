@@ -5,7 +5,7 @@
     <!-- Header -->
     <ng-template pTemplate="header">
         <div class="dialog-header-custom">
-            <span class="header-title">{{ name }} - Başvuru İşlem Detay Yönetim</span>
+            <span class="header-title">{{ name }} - İşlem Detay Yönetim</span>
             <div class="header-actions">
                 <div class="window-btn" (click)="toggleMinimize()" pTooltip="Küçült" tooltipPosition="bottom">
                     <i class="pi pi-minus"></i>
@@ -129,14 +129,15 @@
                                 <!-- Harita Altlık Seçim Menüsü -->
                                 <p-overlayPanel #op styleClass="map-layer-overlay">
                                     <ng-template pTemplate>
-                                        <div class="flex flex-column" style="gap: 2px;">
-                                            <div *ngFor="let option of baseLayerOptions" class="layer-option-item"
-                                                (click)="selectedBaseLayer = option.value; changeBaseLayer(option.value)">
-                                                <p-radioButton [inputId]="'fen-' + option.value" name="fenBaseLayer"
+                                        <div class="radio-group-container">
+                                            <label *ngFor="let option of baseLayerOptions; let i = index"
+                                                class="radio-label">
+                                                <input type="radio" name="fenBaseLayer" class="radio-input"
                                                     [value]="option.value" [(ngModel)]="selectedBaseLayer"
-                                                    class="custom-radio"></p-radioButton>
-                                                <label [for]="'fen-' + option.value">{{ option.label }}</label>
-                                            </div>
+                                                    (change)="changeBaseLayer(option.value)" />
+                                                <span class="radio-custom"></span>
+                                                <span class="radio-text">{{ option.label }}</span>
+                                            </label>
                                         </div>
                                     </ng-template>
                                 </p-overlayPanel>
@@ -155,7 +156,7 @@
         <!-- Footer / Status Bar -->
         <div class="footer-status">
             <i class="pi pi-chevron-right"></i>
-            <span>Başvuru İşlem Detay Yönetim</span>
+            <span>İşlem Detay Yönetim</span>
         </div>
     </div>
 </p-dialog>
